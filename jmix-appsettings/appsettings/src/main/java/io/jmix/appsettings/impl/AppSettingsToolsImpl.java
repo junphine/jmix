@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.List;
@@ -48,7 +48,7 @@ public class AppSettingsToolsImpl implements AppSettingsTools {
         //only one record for T can exist at the same time in database with default identifier
         return dataManager.load(clazz)
                 .id(Id.of(1, clazz))
-                .optional().orElse(dataManager.create(clazz));
+                .optional().orElse(metadata.create(clazz, 1));
     }
 
     @Override
