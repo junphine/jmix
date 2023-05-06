@@ -120,7 +120,7 @@ public class JmixJavaScriptBootstrapUI extends JavaScriptBootstrapUI {
         return (Component) editorPanel;
     }
 
-    @Override
+    //-@Override
     public void connectClient(String clientElementTag,
                               String clientElementId,
                               String flowRoute,
