@@ -16,15 +16,15 @@
 
 package io.jmix.reports.libintegration;
 
-import com.haulmont.yarg.exception.ReportingException;
-import com.haulmont.yarg.util.converter.AbstractObjectToStringConverter;
+import io.jmix.reports.yarg.exception.ReportingException;
 import io.jmix.core.*;
 import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.core.metamodel.datatype.DatatypeRegistry;
 import io.jmix.core.metamodel.model.MetaProperty;
+import io.jmix.reports.yarg.util.converter.AbstractObjectToStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.text.ParseException;
 
 public class JmixObjectToStringConverter extends AbstractObjectToStringConverter {

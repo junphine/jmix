@@ -19,12 +19,13 @@ package io.jmix.flowui.kit.component.valuepicker;
 import com.google.common.base.Preconditions;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.shared.SlotUtils;
 import com.vaadin.flow.dom.Element;
 import io.jmix.flowui.kit.action.Action;
 
 import java.util.*;
 
-import static io.jmix.flowui.kit.component.FlowuiComponentUtils.*;
+import static io.jmix.flowui.kit.component.ComponentUtils.*;
 
 public class ValuePickerActionSupport {
 
@@ -117,10 +118,10 @@ public class ValuePickerActionSupport {
 
     protected void updateActionsSlot() {
         if (getActions().isEmpty()) {
-            clearSlot(getElement(), actionsSlot);
+            SlotUtils.clearSlot(component, actionsSlot);
             getElement().removeAttribute(hasActionsAttribute);
         } else {
-            addComponentsToSlot(getElement(), actionsSlot, getActionsLayout());
+            SlotUtils.addToSlot(component, actionsSlot, getActionsLayout());
             getElement().setAttribute(hasActionsAttribute, true);
         }
     }

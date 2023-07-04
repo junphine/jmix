@@ -15,6 +15,8 @@
  */
 
 @NonNullApi
+@Internal
 package io.jmix.flowui.testassist.vaadin;
 
+import io.jmix.core.annotation.Internal;
 import org.springframework.lang.NonNullApi;

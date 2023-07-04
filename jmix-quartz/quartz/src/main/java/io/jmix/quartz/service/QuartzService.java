@@ -10,9 +10,9 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -69,29 +69,22 @@ public class QuartzService {
                             triggerModel.setTriggerGroup(trigger.getKey().getGroup());
                             triggerModel.setScheduleType(trigger instanceof SimpleTrigger ? ScheduleType.SIMPLE : ScheduleType.CRON_EXPRESSION);
                             triggerModel.setStartDate(trigger.getStartTime());
+                            triggerModel.setEndDate(trigger.getEndTime());
                             triggerModel.setLastFireDate(trigger.getPreviousFireTime());
                             triggerModel.setNextFireDate(trigger.getNextFireTime());
 
-                            boolean isTriggeredNow = false;
                             if (trigger instanceof CronTrigger) {
                                 triggerModel.setCronExpression(((CronTrigger) trigger).getCronExpression());
-                            } else if (trigger instanceof SimpleTrigger) {
-                                SimpleTrigger simpleTrigger = (SimpleTrigger) trigger;
-                                if (simpleTrigger.getRepeatCount() > 0) {
-                                    //because org.quartz.SimpleScheduleBuilder.withRepeatCount
-                                    triggerModel.setRepeatCount(simpleTrigger.getRepeatCount() + 1);
-                                }
+                            } else if (trigger instanceof SimpleTrigger simpleTrigger) {
+                                triggerModel.setRepeatCount(simpleTrigger.getRepeatCount());
                                 triggerModel.setRepeatInterval(simpleTrigger.getRepeatInterval());
-
-                                isTriggeredNow = simpleTrigger.getRepeatCount() == 0 && simpleTrigger.getRepeatInterval() == 0L;
                             }
 
-                            if (!isTriggeredNow) {
-                                triggerModels.add(triggerModel);
-                                if (scheduler.getTriggerState(trigger.getKey()) == Trigger.TriggerState.NORMAL &&
-                                        scheduler.isStarted() && !scheduler.isInStandbyMode()) {
-                                    isActive = true;
-                                }
+                            triggerModels.add(triggerModel);
+                            if (scheduler.getTriggerState(trigger.getKey()) == Trigger.TriggerState.NORMAL
+                                    && scheduler.isStarted()
+                                    && !scheduler.isInStandbyMode()) {
+                                isActive = true;
                             }
                         }
 
@@ -244,9 +237,13 @@ public class QuartzService {
         } else {
             SimpleScheduleBuilder simpleScheduleBuilder = simpleSchedule()
                     .withIntervalInMilliseconds(triggerModel.getRepeatInterval());
-            if (Objects.nonNull(triggerModel.getRepeatCount()) && triggerModel.getRepeatCount() > 0) {
-                //required trick because actual number of firing will be + 1, see org.quartz.SimpleScheduleBuilder.withRepeatCount
-                simpleScheduleBuilder.withRepeatCount(triggerModel.getRepeatCount() - 1);
+            Integer repeatCount = triggerModel.getRepeatCount();
+            if (Objects.isNull(repeatCount)) {
+                // Infinite executions
+                repeatCount = -1;
+            }
+            if (repeatCount >= 0) {
+                simpleScheduleBuilder.withRepeatCount(repeatCount);
             } else {
                 simpleScheduleBuilder.repeatForever();
             }

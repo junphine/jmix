@@ -5,12 +5,12 @@ import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.combobox.ComboBox;
 import io.jmix.flowui.component.combobox.JmixComboBox;
 import io.jmix.flowui.component.select.JmixSelect;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.view.*;
 import io.jmix.securityflowui.model.ResourcePolicyModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 @ViewController("sec_EntityAttributeResourcePolicyModel.detail")
 @ViewDescriptor("entity-attribute-resource-policy-model-detail-view.xml")
@@ -30,7 +30,7 @@ public class EntityAttributeResourcePolicyModelDetailView extends StandardDetail
 
     @Subscribe
     public void onInit(InitEvent event) {
-        FlowuiComponentUtils.setItemsMap(entityField, resourcePolicyEditorUtils.getEntityOptionsMap());
+        ComponentUtils.setItemsMap(entityField, resourcePolicyEditorUtils.getEntityOptionsMap());
         entityField.addValueChangeListener(this::onEntityFieldValueChange);
         attributeField.addValueChangeListener(this::onAttributeFieldValueChange);
         resourcePolicyEditorUtils.setEnumItemsAsString(actionField, EntityAttributePolicyAction.class);
@@ -65,7 +65,7 @@ public class EntityAttributeResourcePolicyModelDetailView extends StandardDetail
     }
 
     private void fillAttributeField(@Nullable String entityName) {
-        FlowuiComponentUtils.setItemsMap(attributeField,
+        ComponentUtils.setItemsMap(attributeField,
                 resourcePolicyEditorUtils.getEntityAttributeOptionsMap(entityName));
     }
 

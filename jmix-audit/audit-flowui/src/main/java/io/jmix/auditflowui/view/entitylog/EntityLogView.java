@@ -37,7 +37,7 @@ import io.jmix.audit.entity.LoggedAttribute;
 import io.jmix.audit.entity.LoggedEntity;
 import io.jmix.core.*;
 import io.jmix.core.annotation.TenantId;
-import io.jmix.core.metamodel.datatype.impl.EnumClass;
+import io.jmix.core.metamodel.datatype.EnumClass;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.Range;
@@ -57,7 +57,7 @@ import io.jmix.flowui.download.DownloadFormat;
 import io.jmix.flowui.download.Downloader;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.action.ActionVariant;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.kit.component.upload.event.FileUploadSucceededEvent;
 import io.jmix.flowui.kit.component.valuepicker.ValuePicker;
 import io.jmix.flowui.model.CollectionContainer;
@@ -74,7 +74,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -90,7 +90,7 @@ import static io.jmix.flowui.download.DownloadFormat.ZIP;
 @ViewController("entityLog.view")
 @ViewDescriptor("entity-log-view.xml")
 @LookupComponent("entityLogTable")
-@DialogMode(width = "50em", height = "37.5em")
+@DialogMode(width = "80em", height = "60em", resizable = true)
 public class EntityLogView extends StandardListView<EntityLogItem> {
     private static final Logger log = LoggerFactory.getLogger(EntityLogView.class);
 
@@ -250,7 +250,7 @@ public class EntityLogView extends StandardListView<EntityLogItem> {
 
         Map<String, String> entityMetaClassesMap = getEntityMetaClasses();
         entityNameField.setItems(entityMetaClassesMap.values());
-        FlowuiComponentUtils.setItemsMap(changeTypeField, changeTypeMap);
+        ComponentUtils.setItemsMap(changeTypeField, changeTypeMap);
 
         userField.setItems(userRepository.getByUsernameLike("")
                 .stream()
@@ -748,6 +748,9 @@ public class EntityLogView extends StandardListView<EntityLogItem> {
         }
 
         DataContext dataContext = loggedEntityDl.getDataContext();
+        if (dataContext == null) {
+            throw new RuntimeException("DataContext is null");
+        }
         selectedEntity = dataContext.merge(selectedEntity);
         Set<LoggedAttribute> enabledAttributes = selectedEntity.getAttributes() != null ?
                 selectedEntity.getAttributes() : new HashSet<>();

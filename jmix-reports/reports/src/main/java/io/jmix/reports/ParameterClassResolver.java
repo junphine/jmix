@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.Collection;
@@ -36,6 +36,7 @@ import java.util.Map;
 
 @Component("report_ParameterClassResolver")
 public class ParameterClassResolver {
+
     protected Map<ParameterType, Class> primitiveParameterTypeMapping = new ImmutableMap.Builder<ParameterType, Class>()
             .put(ParameterType.BOOLEAN, Boolean.class)
             .put(ParameterType.DATE, Date.class)

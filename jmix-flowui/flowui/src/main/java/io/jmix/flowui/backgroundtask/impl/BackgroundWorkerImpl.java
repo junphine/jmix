@@ -33,7 +33,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import jakarta.annotation.PreDestroy;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,7 +65,7 @@ public class BackgroundWorkerImpl implements BackgroundWorker {
     @Autowired
     protected TimeSource timeSource;
 
-    protected FlowuiBackgroundTaskProperties properties;
+    protected UiBackgroundTaskProperties properties;
 
     protected ExecutorService executorService;
 
@@ -73,7 +73,7 @@ public class BackgroundWorkerImpl implements BackgroundWorker {
     }
 
     @Autowired
-    public void setProperties(FlowuiBackgroundTaskProperties properties) {
+    public void setProperties(UiBackgroundTaskProperties properties) {
         this.properties = properties;
 
         createThreadPoolExecutor();

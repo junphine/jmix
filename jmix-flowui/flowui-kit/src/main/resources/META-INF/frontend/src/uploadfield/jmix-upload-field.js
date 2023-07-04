@@ -18,7 +18,7 @@ import '@vaadin/input-container/src/vaadin-input-container.js';
 import {html, PolymerElement} from '@polymer/polymer';
 import {ElementMixin} from '@vaadin/component-base/src/element-mixin.js';
 import { TooltipController } from '@vaadin/component-base/src/tooltip-controller.js';
-import { DelegateFocusMixin } from '@vaadin/component-base/src/delegate-focus-mixin.js';
+import { DelegateFocusMixin } from '@vaadin/a11y-base/src/delegate-focus-mixin.js';
 import { FieldMixin } from '@vaadin/field-base/src/field-mixin.js';
 import { InputConstraintsMixin } from '@vaadin/field-base/src/input-constraints-mixin.js';
 import { SlotStylesMixin } from '@vaadin/field-base/src/slot-styles-mixin.js';
@@ -38,7 +38,11 @@ const uploadField = css`
     display: inline-flex;
   }
   
-  [class$='container'] { {
+  /*
+   * Use "auto" width instead of default 12em, because upload field
+   * with visible file name is not fit in.
+   */
+  [class$='container'] {
     width: var(--jmix-upload-field-default-width, var(--vaadin-field-default-width, auto));
   }
 `;

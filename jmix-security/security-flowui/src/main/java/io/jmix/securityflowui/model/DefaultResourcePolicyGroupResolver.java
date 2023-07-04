@@ -33,12 +33,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 /**
  * Class is used for getting default policy group for the {@link ResourcePolicy} instance.
  */
-@Component("sec_FlowuiDefaultResourcePolicyGroupResolver")
+@Component("sec_DefaultResourcePolicyGroupResolver")
 public class DefaultResourcePolicyGroupResolver {
 
     private final static Logger log = LoggerFactory.getLogger(DefaultResourcePolicyGroupResolver.class);

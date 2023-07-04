@@ -20,6 +20,8 @@ import com.google.common.base.Strings;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.shared.HasTooltip;
+import com.vaadin.flow.component.shared.HasValidationProperties;
+import com.vaadin.flow.component.shared.ValidationUtil;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.dom.PropertyChangeEvent;
 import com.vaadin.flow.shared.Registration;
@@ -30,6 +32,7 @@ import io.jmix.flowui.kit.component.formatter.Formatter;
 import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.vaadin.flow.data.value.ValueChangeMode.eventForMode;
@@ -38,9 +41,9 @@ import static com.vaadin.flow.data.value.ValueChangeMode.eventForMode;
 @JsModule("./src/value-picker/jmix-value-picker.js")
 public abstract class ValuePickerBase<C extends ValuePickerBase<C, V>, V>
         extends AbstractField<C, V>
-        implements SupportsFormatter<V>, SupportsUserAction<V>,
+        implements SupportsFormatter<V>, SupportsUserAction<V>, HasValidationProperties,
         HasLabel, HasHelper, HasStyle, HasTheme, HasSize, HasPlaceholder,
-        HasTitle, HasAutofocus, HasActions, Focusable<C>, HasTooltip {
+        HasTitle, HasAutofocus, HasActions, Focusable<C>, HasTooltip, HasAriaLabel {
 
     protected static final String PROPERTY_VALUE = "value";
     protected static final String PROPERTY_ALLOW_CUSTOM_VALUE = "allowCustomValue";
@@ -54,10 +57,8 @@ public abstract class ValuePickerBase<C extends ValuePickerBase<C, V>, V>
 
         initComponent();
 
-        // TODO: gg, move to delegate
-//        addValueChangeListener(e -> validate());
+        addValueChangeListener(e -> validate());
     }
-
 
     protected void initComponent() {
         setAllowCustomValue(false);
@@ -98,6 +99,15 @@ public abstract class ValuePickerBase<C extends ValuePickerBase<C, V>, V>
     public void setValueFromClient(@Nullable V value) {
         setModelValue(value, true);
         setPresentationValue(value);
+    }
+
+    protected void validate() {
+        boolean isRequired = this.isRequiredIndicatorVisible();
+        boolean isInvalid = ValidationUtil
+                .checkRequired(isRequired, getValue(), getEmptyValue())
+                .isError();
+
+        setInvalid(isInvalid);
     }
 
     @Override
@@ -157,6 +167,26 @@ public abstract class ValuePickerBase<C extends ValuePickerBase<C, V>, V>
 
     protected void setAllowCustomValue(boolean allowCustomValue) {
         this.getElement().setProperty(PROPERTY_ALLOW_CUSTOM_VALUE, allowCustomValue);
+    }
+
+    @Override
+    public Optional<String> getAriaLabel() {
+        return Optional.ofNullable(getElement().getProperty("accessibleName"));
+    }
+
+    @Override
+    public void setAriaLabel(String ariaLabel) {
+        getElement().setProperty("accessibleName", ariaLabel);
+    }
+
+    @Override
+    public Optional<String> getAriaLabelledBy() {
+        return Optional.ofNullable(getElement().getProperty("accessibleNameRef"));
+    }
+
+    @Override
+    public void setAriaLabelledBy(String labelledBy) {
+        getElement().setProperty("accessibleNameRef", labelledBy);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

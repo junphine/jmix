@@ -19,11 +19,11 @@ package io.jmix.flowui.view;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.shared.Registration;
-import io.jmix.core.annotation.Internal;
 import io.jmix.flowui.model.ViewData;
 import io.jmix.flowui.sys.ViewSupport;
 import io.jmix.flowui.sys.event.UiEventsManager;
 import io.jmix.flowui.util.OperationResult;
+import io.jmix.flowui.util.WebBrowserTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -58,6 +58,7 @@ public class View<T extends Component> extends Composite<T>
     private Consumer<View<T>> closeDelegate;
 
     private boolean closeActionPerformed = false;
+    private boolean preventBrowserTabClosing = false;
 
     public View() {
         closeDelegate = createDefaultViewDelegate();
@@ -123,12 +124,25 @@ public class View<T extends Component> extends Composite<T>
     }
 
     @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+
+        if (preventBrowserTabClosing) {
+            WebBrowserTools.preventBrowserTabClosing(this);
+        }
+    }
+
+    @Override
     protected void onDetach(DetachEvent detachEvent) {
         super.onDetach(detachEvent);
 
         removeApplicationListeners();
         removeViewAttributes();
         unregisterBackNavigation();
+
+        if (preventBrowserTabClosing) {
+            WebBrowserTools.allowBrowserTabClosing(this);
+        }
     }
 
     private void unregisterBackNavigation() {
@@ -137,7 +151,7 @@ public class View<T extends Component> extends Composite<T>
 
     private void removeApplicationListeners() {
         getApplicationContext().getBeanProvider(UiEventsManager.class)
-                .ifAvailable(manager-> manager.removeApplicationListeners(this));
+                .ifAvailable(manager -> manager.removeApplicationListeners(this));
     }
 
     private void removeViewAttributes() {
@@ -191,6 +205,24 @@ public class View<T extends Component> extends Composite<T>
         fireEvent(afterCloseEvent);
 
         return OperationResult.success();
+    }
+
+    /**
+     * @return whether this view prevents browser tab from accidentally closing
+     */
+    public boolean isPreventBrowserTabClosing() {
+        return preventBrowserTabClosing;
+    }
+
+    /**
+     * Sets whether this view must prevent browser tab from
+     * accidentally closing. Enabled by default.
+     *
+     * @param preventBrowserTabClosing whether this details view must prevent
+     *                                 browser tab from accidentally closing
+     */
+    public void setPreventBrowserTabClosing(boolean preventBrowserTabClosing) {
+        this.preventBrowserTabClosing = preventBrowserTabClosing;
     }
 
     Consumer<View<T>> getCloseDelegate() {
@@ -337,8 +369,7 @@ public class View<T extends Component> extends Composite<T>
      * @param listener the listener to add, not {@code null}
      * @return a registration object that can be used for removing the listener
      */
-    @Internal
-    Registration addQueryParametersChangeListener(ComponentEventListener<QueryParametersChangeEvent> listener) {
+    protected Registration addQueryParametersChangeListener(ComponentEventListener<QueryParametersChangeEvent> listener) {
         return getEventBus().addListener(QueryParametersChangeEvent.class, listener);
     }
 
@@ -527,11 +558,9 @@ public class View<T extends Component> extends Composite<T>
 
     /**
      * An event informing which query parameters the view is opened with.
-     * For internal use only. Can be changed or removed in future releases.
      *
      * @see #addQueryParametersChangeListener(ComponentEventListener)
      */
-    @Internal
     public static class QueryParametersChangeEvent extends ComponentEvent<View<?>> {
 
         protected QueryParameters queryParameters;

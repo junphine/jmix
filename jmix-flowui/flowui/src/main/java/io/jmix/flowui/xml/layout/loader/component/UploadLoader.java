@@ -19,7 +19,7 @@ package io.jmix.flowui.xml.layout.loader.component;
 import com.google.common.base.Splitter;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.upload.Receiver;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
@@ -28,7 +28,7 @@ import io.jmix.flowui.component.upload.JmixUpload;
 import io.jmix.flowui.component.upload.receiver.FileTemporaryStorageBuffer;
 import io.jmix.flowui.component.upload.receiver.MultiFileTemporaryStorageBuffer;
 import io.jmix.flowui.exception.GuiDevelopmentException;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.xml.layout.loader.AbstractComponentLoader;
 import org.dom4j.Element;
 import org.springframework.beans.BeansException;
@@ -145,10 +145,10 @@ public class UploadLoader extends AbstractComponentLoader<JmixUpload> {
     protected void loadDropLabel(JmixUpload component, Element element) {
         loadResourceString(element, "dropLabel", context.getMessageGroup(),
                 message -> {
-                    Label label = factory.create(Label.class);
-                    label.setText(message);
+                    Span dropLabelComponent = factory.create(Span.class);
+                    dropLabelComponent.setText(message);
 
-                    component.setDropLabel(label);
+                    component.setDropLabel(dropLabelComponent);
                 });
 
         loadIcon(element, "dropLabelIcon", component::setDropLabelIcon);
@@ -165,7 +165,7 @@ public class UploadLoader extends AbstractComponentLoader<JmixUpload> {
 
     protected void loadIcon(Element element, String attributeName, Consumer<Component> iconSetter) {
         loadString(element, attributeName)
-                .map(FlowuiComponentUtils::parseIcon)
+                .map(ComponentUtils::parseIcon)
                 .ifPresent(iconSetter);
     }
 }

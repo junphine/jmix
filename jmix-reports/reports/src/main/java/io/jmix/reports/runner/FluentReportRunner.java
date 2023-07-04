@@ -17,7 +17,7 @@
 package io.jmix.reports.runner;
 
 import com.google.common.base.Strings;
-import com.haulmont.yarg.reporting.ReportOutputDocument;
+import io.jmix.reports.yarg.reporting.ReportOutputDocument;
 import io.jmix.core.DataManager;
 import io.jmix.core.EntityStates;
 import io.jmix.core.Id;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

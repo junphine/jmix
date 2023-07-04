@@ -77,13 +77,11 @@ class GridXmlLoadTest extends FlowuiTestSpecification {
             maxWidth == "120px"
             minHeight == "40px"
             minWidth == "80px"
-            multiSort
             nestedNullBehavior == Grid.NestedNullBehavior.THROW
             pageSize == 20
             rowsDraggable
             tabIndex == 3
             themeNames.containsAll(["column-borders", "compact"])
-            verticalScrollingEnabled
             visible
             width == "100px"
             columns.size() == 11
@@ -139,13 +137,11 @@ class GridXmlLoadTest extends FlowuiTestSpecification {
             maxWidth == "120px"
             minHeight == "40px"
             minWidth == "80px"
-            multiSort
             nestedNullBehavior == Grid.NestedNullBehavior.THROW
             pageSize == 20
             rowsDraggable
             tabIndex == 3
             themeNames.containsAll(["column-borders", "compact"])
-            verticalScrollingEnabled
             visible
             width == "100px"
             columns.size() == 11

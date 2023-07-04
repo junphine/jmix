@@ -20,11 +20,18 @@ import com.vaadin.flow.shared.Registration;
 import io.jmix.flowui.data.DataUnit;
 import io.jmix.flowui.data.HasType;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
+
+import java.util.Collection;
 import java.util.EventObject;
 import java.util.function.Consumer;
 
 public interface DataGridItems<T> extends DataUnit, HasType<T> {
+
+    /**
+     * @return unmodifiable collection of items
+     */
+    Collection<T> getItems();
 
     /**
      * @return the current item contained in the source

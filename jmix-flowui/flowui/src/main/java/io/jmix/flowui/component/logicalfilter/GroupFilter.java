@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Haulmont.
+ * Copyright 2023 Haulmont.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,33 @@
 package io.jmix.flowui.component.logicalfilter;
 
 import com.google.common.base.Strings;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
 import io.jmix.core.annotation.Internal;
 import io.jmix.core.querycondition.Condition;
 import io.jmix.core.querycondition.LogicalCondition;
-import io.jmix.flowui.FlowuiComponentProperties;
+import io.jmix.flowui.UiComponentProperties;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.SupportsResponsiveSteps;
 import io.jmix.flowui.component.WrapperUtils;
-import io.jmix.flowui.component.filer.FilterComponent;
-import io.jmix.flowui.component.filer.SingleFilterComponent;
-import io.jmix.flowui.component.filer.SingleFilterComponentBase;
+import io.jmix.flowui.component.filter.FilterComponent;
+import io.jmix.flowui.component.filter.SingleFilterComponent;
+import io.jmix.flowui.component.filter.SingleFilterComponentBase;
 import io.jmix.flowui.component.propertyfilter.PropertyFilter;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.model.DataLoader;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -69,7 +71,7 @@ public class GroupFilter extends Composite<VerticalLayout>
     protected boolean conditionModificationDelegated = false;
 
     protected List<ResponsiveStep> responsiveSteps;
-    protected Label summaryComponent;
+    protected Div summaryComponent;
     protected String summaryText;
     protected boolean operationTextVisible = true;
 
@@ -103,13 +105,12 @@ public class GroupFilter extends Composite<VerticalLayout>
 
         root.setClassName(GROUP_FILTER_CLASS_NAME);
         root.setWidthFull();
-        root.setPadding(false);
 
         return root;
     }
 
     protected void initComponent() {
-        this.autoApply = applicationContext.getBean(FlowuiComponentProperties.class).isFilterAutoApply();
+        this.autoApply = applicationContext.getBean(UiComponentProperties.class).isFilterAutoApply();
 
         initDefaultResponsiveSteps();
         initLayout();
@@ -138,15 +139,19 @@ public class GroupFilter extends Composite<VerticalLayout>
 
     protected boolean isAnyFilterComponentVisible() {
         return getOwnFilterComponents().stream()
-                .anyMatch(FlowuiComponentUtils::isVisible);
+                .anyMatch(ComponentUtils::isVisible);
     }
 
     protected void addFilterComponentToConditionsLayout(FormLayout conditionsLayout,
                                                         FilterComponent filterComponent) {
+        if (!((Component) filterComponent).isVisible()) {
+            return;
+        }
+
         if (filterComponent instanceof SingleFilterComponentBase) {
             SingleFilterComponentBase<?> singleFilterComponent = ((SingleFilterComponentBase<?>) filterComponent);
 
-            Label label = new Label(singleFilterComponent.getLabel());
+            NativeLabel label = new NativeLabel(singleFilterComponent.getLabel());
             singleFilterComponent.setWidthFull();
             FormLayout.FormItem formItem = conditionsLayout.addFormItem(singleFilterComponent, label);
             formItem.getElement().getThemeList().addAll(List.of("label-align-end", "jmix-group-filter-form-item"));
@@ -154,8 +159,9 @@ public class GroupFilter extends Composite<VerticalLayout>
             registerFilterComponentFormItem(filterComponent, formItem);
 
             singleFilterComponent.setLabelDelegate(label::setText);
-        } else {
-            // TODO: gg, support for LogicalFilterComponent
+        } else if (filterComponent instanceof GroupFilter) {
+            GroupFilter groupFilter = (GroupFilter) filterComponent;
+            conditionsLayout.add(groupFilter, 3);
         }
     }
 
@@ -293,14 +299,18 @@ public class GroupFilter extends Composite<VerticalLayout>
                 ownFilterComponentsOrder = null;
             }
 
+            FormLayout.FormItem formItem = null;
             if (filterComponent instanceof SingleFilterComponent) {
                 getDataLoader().removeParameter(((SingleFilterComponent<?>) filterComponent).getParameterName());
+                formItem = filterComponentFormItemMap.remove(filterComponent);
             }
 
-            FormLayout.FormItem formItem = filterComponentFormItemMap.remove(filterComponent);
             if (formItem != null) {
                 conditionsLayout.remove(formItem);
+            } else {
+                conditionsLayout.remove((Component) filterComponent);
             }
+
             updateConditionsLayout();
 
             if (!isConditionModificationDelegated()) {
@@ -326,6 +336,11 @@ public class GroupFilter extends Composite<VerticalLayout>
         }
 
         fireFilterComponentsChanged();
+    }
+
+    @Nullable
+    protected Div getSummaryComponent() {
+        return summaryComponent;
     }
 
     @Nullable
@@ -360,11 +375,11 @@ public class GroupFilter extends Composite<VerticalLayout>
         }
     }
 
-    protected Label createSummaryComponent() {
-        return uiComponents.create(Label.class);
+    protected Div createSummaryComponent() {
+        return uiComponents.create(Div.class);
     }
 
-    protected void initSummaryComponent(Label summaryComponent) {
+    protected void initSummaryComponent(Div summaryComponent) {
         // hook
     }
 

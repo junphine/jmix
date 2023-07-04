@@ -16,12 +16,12 @@
 
 package io.jmix.reports.libintegration;
 
-import com.haulmont.yarg.util.groovy.Scripting;
+import io.jmix.reports.yarg.util.groovy.Scripting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scripting.ScriptEvaluator;
 import org.springframework.scripting.support.StaticScriptSource;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.Map;
 
 public class JmixReportingScripting implements Scripting {

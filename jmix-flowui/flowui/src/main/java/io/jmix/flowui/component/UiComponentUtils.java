@@ -25,7 +25,7 @@ import io.jmix.flowui.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -220,6 +220,26 @@ public final class UiComponentUtils {
         }
 
         return component.isVisible();
+    }
+
+    @Nullable
+    public static Dialog findDialog(Component component) {
+        if (component instanceof Dialog) {
+            return (Dialog) component;
+        }
+
+        Optional<Component> parent = component.getParent();
+        return parent.map(UiComponentUtils::findDialog).orElse(null);
+    }
+
+    public static View<?> getView(Component component) {
+        View<?> view = findView(component);
+        if (view == null) {
+            throw new IllegalStateException(String.format("A component '%s' is not attached to a view",
+                    component.getClass().getSimpleName()));
+        }
+
+        return view;
     }
 
     @Nullable

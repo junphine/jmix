@@ -23,24 +23,13 @@ archivesBaseName = 'jmix-reports-rest'
 dependencies {
     api project(':reports')
 
-    compileOnly project(':security-oauth2')
+    compileOnly project(':authserver')
     compileOnly project(':oidc')
-
-    api ('com.haulmont.yarg:yarg-api') {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
-    api ('com.haulmont.yarg:yarg') {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        exclude group: 'commons-dbcp', module: 'commons-dbcp'
-    }
 
     implementation 'com.google.code.gson:gson'
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
-
-    //todo SB3 why ui-test-assist-spock in reports-rest?
-//    testImplementation project(':ui-test-assist-spock')
 
     testImplementation 'org.apache.commons:commons-dbcp2'
     testImplementation 'org.springframework:spring-orm'

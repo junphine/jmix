@@ -50,7 +50,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -254,7 +254,7 @@ public class ExcelExporter extends AbstractDataGridExporter<ExcelExporter> {
             }
 
             ByteArrayDownloadDataProvider dataProvider = new ByteArrayDownloadDataProvider(out.toByteArray(),
-                    flowuiProperties.getSaveExportedByteArrayDataThresholdBytes(), coreProperties.getTempDir());
+                    uiProperties.getSaveExportedByteArrayDataThresholdBytes(), coreProperties.getTempDir());
 
 
             downloader.download(dataProvider, getFileName(dataGrid) + "." + XLSX.getFileExt(), XLSX);

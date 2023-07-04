@@ -27,7 +27,7 @@ import io.jmix.securityflowui.model.ResourceRoleModel;
 import io.jmix.securityflowui.model.RoleModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @ViewController("sec_ResourceRoleModel.lookup")
 @ViewDescriptor("resource-role-model-lookup-view.xml")
 @LookupComponent("roleModelsTable")
-@DialogMode(width = "50em", height = "37.5em")
+@DialogMode(width = "50em")
 public class ResourceRoleModelLookupView extends StandardListView<ResourceRoleModel> {
 
     @ViewComponent

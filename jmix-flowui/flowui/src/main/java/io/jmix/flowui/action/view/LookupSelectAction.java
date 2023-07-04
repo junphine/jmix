@@ -21,10 +21,10 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.shared.Registration;
 import io.jmix.core.Messages;
-import io.jmix.flowui.FlowuiViewProperties;
+import io.jmix.flowui.UiViewProperties;
 import io.jmix.flowui.action.ActionType;
 import io.jmix.flowui.kit.action.ActionVariant;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.kit.component.KeyCombination;
 import io.jmix.flowui.kit.component.SelectionChangeNotifier;
 import io.jmix.flowui.view.StandardListView;
@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 @ActionType(LookupSelectAction.ID)
 public class LookupSelectAction<E> extends OperationResultViewAction<LookupSelectAction<E>, StandardListView<E>> {
@@ -55,7 +55,7 @@ public class LookupSelectAction<E> extends OperationResultViewAction<LookupSelec
     protected void initAction() {
         super.initAction();
 
-        this.icon = FlowuiComponentUtils.convertToIcon(VaadinIcon.CHECK);
+        this.icon = ComponentUtils.convertToIcon(VaadinIcon.CHECK);
         this.variant = ActionVariant.PRIMARY;
     }
 
@@ -65,8 +65,8 @@ public class LookupSelectAction<E> extends OperationResultViewAction<LookupSelec
     }
 
     @Autowired
-    protected void setFlowUiViewProperties(FlowuiViewProperties flowUiViewProperties) {
-        this.shortcutCombination = KeyCombination.create(flowUiViewProperties.getSaveShortcut());
+    protected void setUiViewProperties(UiViewProperties viewProperties) {
+        this.shortcutCombination = KeyCombination.create(viewProperties.getSaveShortcut());
     }
 
     @Override

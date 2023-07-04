@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -61,7 +61,7 @@ import static io.jmix.securityflowui.model.RoleSource.DATABASE;
 @ViewController("sec_RowLevelRoleModel.list")
 @ViewDescriptor("row-level-role-model-list-view.xml")
 @LookupComponent("roleModelsTable")
-@DialogMode(width = "50em", height = "37.5em")
+@DialogMode(width = "50em")
 public class RowLevelRoleModelListView extends StandardListView<RowLevelRoleModel> {
 
     private static final Logger log = LoggerFactory.getLogger(RowLevelRoleModelListView.class);

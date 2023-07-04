@@ -51,12 +51,13 @@
             <button id="refreshBtn" action="sessionsTable.refresh"/>
             <button id="expireBtn" action="sessionsTable.expire"/>
         </hbox>
-        <dataGrid id="sessionsTable" minHeight="20em"
+        <dataGrid id="sessionsTable"
+                  minHeight="20em"
                   width="100%"
                   dataContainer="userSessionsDc"
                   selectionMode="MULTI">
             <actions>
-                <action id="refresh" type="refresh"/>
+                <action id="refresh" type="list_refresh"/>
                 <action id="expire" text="msg://expire" icon="BAN"/>
             </actions>
             <columns>

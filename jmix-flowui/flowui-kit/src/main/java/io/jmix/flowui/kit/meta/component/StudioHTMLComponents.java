@@ -27,8 +27,9 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Anchor",
             category = "HTML",
             xmlElement = "anchor",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -64,7 +65,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Article",
             category = "HTML",
             xmlElement = "article",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -96,7 +96,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Aside",
             category = "HTML",
             xmlElement = "aside",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -128,7 +127,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.DescriptionList",
             category = "HTML",
             xmlElement = "descriptionList",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -160,7 +158,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Div",
             category = "HTML",
             xmlElement = "div",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -192,7 +189,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Emphasis",
             category = "HTML",
             xmlElement = "emphasis",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -224,7 +220,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Footer",
             category = "HTML",
             xmlElement = "footer",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -256,7 +251,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H1",
             category = "HTML",
             xmlElement = "h1",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -288,7 +282,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H2",
             category = "HTML",
             xmlElement = "h2",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -320,7 +313,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H3",
             category = "HTML",
             xmlElement = "h3",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -352,7 +344,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H4",
             category = "HTML",
             xmlElement = "h4",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -384,7 +375,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H5",
             category = "HTML",
             xmlElement = "h5",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -416,7 +406,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.H6",
             category = "HTML",
             xmlElement = "h6",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -448,7 +437,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Header",
             category = "HTML",
             xmlElement = "header",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -480,7 +468,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Hr",
             category = "HTML",
             xmlElement = "hr",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -503,7 +490,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.HtmlObject",
             category = "HTML",
             xmlElement = "htmlObject",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -581,6 +567,7 @@ public interface StudioHTMLComponents {
                     @StudioProperty(xmlAttribute = "alternateText", type = StudioPropertyType.LOCALIZED_STRING,
                             setMethod = "setAlt"),
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -622,9 +609,9 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Input",
             category = "HTML",
             xmlElement = "input",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -658,7 +645,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.ListItem",
             category = "HTML",
             xmlElement = "listItem",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -690,9 +676,9 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Main",
             category = "HTML",
             xmlElement = "main",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -723,9 +709,9 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Nav",
             category = "HTML",
             xmlElement = "nav",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -756,7 +742,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.OrderedList",
             category = "HTML",
             xmlElement = "orderedList",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -792,7 +777,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Paragraph",
             category = "HTML",
             xmlElement = "p",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -824,7 +808,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Param",
             category = "HTML",
             xmlElement = "param",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -849,7 +832,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Pre",
             category = "HTML",
             xmlElement = "pre",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -881,7 +863,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Section",
             category = "HTML",
             xmlElement = "section",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -913,7 +894,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Span",
             category = "HTML",
             xmlElement = "span",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -945,7 +925,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.UnorderedList",
             category = "HTML",
             xmlElement = "unorderedList",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -977,7 +956,6 @@ public interface StudioHTMLComponents {
             classFqn = "com.vaadin.flow.component.html.Label",
             category = "HTML",
             xmlElement = "label",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -1004,4 +982,70 @@ public interface StudioHTMLComponents {
             }
     )
     Label label();
+
+    @StudioComponent(
+            name = "NativeLabel",
+            classFqn = "com.vaadin.flow.component.html.NativeLabel",
+            category = "HTML",
+            xmlElement = "nativeLabel",
+            properties = {
+                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
+                    @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "setFor", type = StudioPropertyType.COMPONENT_REF),
+                    @StudioProperty(xmlAttribute = "text", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST,
+                            options = {"normal", "success", "error", "contrast", "primary", "small", "pill"}),
+                    @StudioProperty(xmlAttribute = "title", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "whiteSpace", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "com.vaadin.flow.component.HasText$WhiteSpace", defaultValue = "NORMAL",
+                            options = {"NORMAL", "NOWRAP", "PRE", "PRE_WRAP", "PRE_LINE", "BREAK_SPACES", "INHERIT",
+                                    "INITIAL"}),
+                    @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE)
+            }
+    )
+    NativeLabel nativeLabel();
+
+    @StudioComponent(
+            name = "NativeButton",
+            classFqn = "com.vaadin.flow.component.html.NativeButton",
+            category = "HTML",
+            xmlElement = "nativeButton",
+            properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
+                    @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "text", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST,
+                            options = {"normal", "success", "error", "contrast", "primary", "small", "pill"}),
+                    @StudioProperty(xmlAttribute = "title", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "whiteSpace", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "com.vaadin.flow.component.HasText$WhiteSpace", defaultValue = "NORMAL",
+                            options = {"NORMAL", "NOWRAP", "PRE", "PRE_WRAP", "PRE_LINE", "BREAK_SPACES", "INHERIT",
+                                    "INITIAL"}),
+                    @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE)
+            }
+    )
+    NativeButton nativeButton();
 }

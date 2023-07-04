@@ -35,7 +35,7 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -110,6 +110,12 @@ public class InstanceNameProviderImpl implements InstanceNameProvider {
     public void setResolvers(ContextArgumentResolverComposite resolvers) {
         this.resolvers = resolvers;
         this.methodArgumentsProvider = new MethodArgumentsProvider(resolvers);
+    }
+
+    @Override
+    public boolean isInstanceNameDefined(Class<?> aClass) {
+        MetaClass metaClass = metadata.getClass(aClass);
+        return instanceNameRecCache.getUnchecked(metaClass).isPresent();
     }
 
     @Override

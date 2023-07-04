@@ -29,7 +29,7 @@ import io.jmix.core.entity.EntityValues;
 import io.jmix.core.event.AttributeChanges;
 import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.core.metamodel.datatype.DatatypeRegistry;
-import io.jmix.core.metamodel.datatype.impl.EnumClass;
+import io.jmix.core.metamodel.datatype.EnumClass;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
@@ -49,9 +49,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.*;
 
-import jakarta.annotation.Nullable;
-//todo SB3 restore GuardedBy annotation
-//import jakarta.annotation.concurrent.GuardedBy;
+import org.springframework.lang.Nullable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -108,12 +106,8 @@ public class EntityLogImpl implements EntityLog, JpaLifecycleListener {
     protected volatile boolean enabled;
     protected volatile boolean loaded;
 
-    //todo SB3 restore GuardedBy annotation
-//    @GuardedBy("lock")
     protected Map<String, Set<String>> entitiesManual;
 
-    //todo SB3 restore GuardedBy annotation
-//    @GuardedBy("lock")
     protected Map<String, Set<String>> entitiesAuto;
 
     protected ReentrantReadWriteLock lock = new ReentrantReadWriteLock();

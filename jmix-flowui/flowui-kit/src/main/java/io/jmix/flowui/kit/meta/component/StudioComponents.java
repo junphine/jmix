@@ -34,16 +34,11 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.component.textfield.BigDecimalField;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.component.upload.Upload;
 import io.jmix.flowui.kit.component.button.JmixButton;
+import io.jmix.flowui.kit.component.codeeditor.JmixCodeEditor;
 import io.jmix.flowui.kit.component.combobox.ComboBoxPicker;
 import io.jmix.flowui.kit.component.combobutton.ComboButton;
 import io.jmix.flowui.kit.component.dropdownbutton.DropdownButton;
@@ -56,11 +51,7 @@ import io.jmix.flowui.kit.component.upload.JmixFileStorageUploadField;
 import io.jmix.flowui.kit.component.upload.JmixFileUploadField;
 import io.jmix.flowui.kit.component.valuepicker.MultiValuePicker;
 import io.jmix.flowui.kit.component.valuepicker.ValuePicker;
-import io.jmix.flowui.kit.meta.StudioComponent;
-import io.jmix.flowui.kit.meta.StudioPropertiesBinding;
-import io.jmix.flowui.kit.meta.StudioProperty;
-import io.jmix.flowui.kit.meta.StudioPropertyType;
-import io.jmix.flowui.kit.meta.StudioUiKit;
+import io.jmix.flowui.kit.meta.*;
 
 @StudioUiKit
 public interface StudioComponents {
@@ -70,7 +61,6 @@ public interface StudioComponents {
             classFqn = "com.vaadin.flow.component.avatar.Avatar",
             category = "Components",
             xmlElement = "avatar",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "abbreviation", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
@@ -98,7 +88,6 @@ public interface StudioComponents {
             classFqn = "com.vaadin.flow.component.icon.Icon",
             category = "Components",
             xmlElement = "icon",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "color", type = StudioPropertyType.LOCALIZED_STRING),
@@ -117,8 +106,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.textfield.JmixBigDecimalField",
             category = "Components",
             xmlElement = "bigDecimalField",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
                             options = {"NONE", "SENTENCES", "WORDS", "CHARACTERS"}),
@@ -202,6 +192,8 @@ public interface StudioComponents {
                             classFqn = "io.jmix.flowui.kit.action.Action"),
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "disableOnClick", type = StudioPropertyType.BOOLEAN,
@@ -241,6 +233,8 @@ public interface StudioComponents {
             xmlElement = "checkboxGroup",
             icon = "io/jmix/flowui/kit/meta/icon/component/checkBoxGroup.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -255,14 +249,14 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "itemsContainer",
                             type = StudioPropertyType.COLLECTION_DATA_CONTAINER_REF),
                     @StudioProperty(xmlAttribute = "itemsEnum", type = StudioPropertyType.ENUM_CLASS,
-                            typeParameter = "T"),
+                            typeParameter = "V"),
                     @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "property", type = StudioPropertyType.PROPERTY_REF,
-                            typeParameter = "T"),
+                            typeParameter = "V"),
                     @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "required", type = StudioPropertyType.BOOLEAN,
@@ -293,6 +287,7 @@ public interface StudioComponents {
             icon = "io/jmix/flowui/kit/meta/icon/component/checkbox.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
@@ -341,8 +336,11 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -406,7 +404,10 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -475,7 +476,10 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -538,6 +542,7 @@ public interface StudioComponents {
             icon = "io/jmix/flowui/kit/meta/icon/component/dropdownButton.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dropdownIndicatorVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "true"),
@@ -574,10 +579,10 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.kit.component.combobutton.ComboButton",
             category = "Components",
             xmlElement = "comboButton",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "action", type = StudioPropertyType.ACTION_REF),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dropdownIcon", type = StudioPropertyType.ICON),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -609,58 +614,6 @@ public interface StudioComponents {
     ComboButton comboButton();
 
     @StudioComponent(
-            name = "ComboBoxPicker",
-            classFqn = "io.jmix.flowui.kit.component.combobox.ComboBoxPicker",
-            category = "Components",
-            xmlElement = "comboBoxPicker",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
-            properties = {
-                    @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "allowCustomValue", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
-                    @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
-                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "true"),
-                    @StudioProperty(xmlAttribute = "errorMessage", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "helperText", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
-                    @StudioProperty(xmlAttribute = "invalid", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "pageSize", type = StudioPropertyType.INTEGER),
-                    @StudioProperty(xmlAttribute = "pattern", type = StudioPropertyType.STRING),
-                    @StudioProperty(xmlAttribute = "placeholder", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "required", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "requiredIndicatorVisible",
-                            type = StudioPropertyType.BOOLEAN, defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
-                    @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST,
-                            options = {"small", "align-left", "align-center", "align-right", "helper-above-field",
-                                    "always-float-label"}),
-                    @StudioProperty(xmlAttribute = "title", type = StudioPropertyType.LOCALIZED_STRING),
-                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "true"),
-                    @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE)
-            }
-    )
-    ComboBoxPicker comboBoxPicker();
-
-    @StudioComponent(
             name = "DatePicker",
             classFqn = "io.jmix.flowui.component.datepicker.TypedDatePicker",
             category = "Components",
@@ -670,7 +623,10 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -725,11 +681,13 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.datetimepicker.TypedDateTimePicker",
             category = "Components",
             xmlElement = "dateTimePicker",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
                     @StudioProperty(xmlAttribute = "datatype", type = StudioPropertyType.ENUMERATION,
@@ -780,9 +738,9 @@ public interface StudioComponents {
             classFqn = "com.vaadin.flow.component.applayout.DrawerToggle",
             category = "Components",
             xmlElement = "drawerToggle",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autoFocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
@@ -807,8 +765,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.textfield.JmixEmailField",
             category = "Components",
             xmlElement = "emailField",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
@@ -848,7 +807,9 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "pattern", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "placeholder", type = StudioPropertyType.LOCALIZED_STRING),
@@ -895,7 +856,10 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer",
                             type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -959,6 +923,8 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -1033,8 +999,6 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "metaClass", type = StudioPropertyType.ENTITY_NAME, typeParameter = "E"),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "multiSort", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "nestedNullBehavior", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.grid.Grid.NestedNullBehavior", defaultValue = "THROW",
                             options = {"THROW", "ALLOW_NULLS"}),
@@ -1043,7 +1007,7 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "selectionMode", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.grid.Grid.SelectionMode", defaultValue = "SINGLE",
-                            options = {"SINGLE", "MULTI"}),
+                            options = {"SINGLE", "MULTI", "NONE"}),
                     @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST,
                             options = {"no-border", "no-row-borders", "column-borders", "row-stripes",
@@ -1052,7 +1016,10 @@ public interface StudioComponents {
                             defaultValue = "true"),
                     @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE, initialValue = "100%"),
                     @StudioProperty(xmlAttribute = "editorBuffered", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false")
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "columnRendering", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "com.vaadin.flow.component.grid.ColumnRendering", defaultValue = "EAGER",
+                            options = {"EAGER", "LAZY"})
             },
             propertiesBindings = {
                     @StudioPropertiesBinding(
@@ -1077,7 +1044,7 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "columnReorderingAllowed", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.COLLECTION_DATA_CONTAINER_REF,
-                            required = true, typeParameter = "T"),
+                            required = true, typeParameter = "E"),
                     @StudioProperty(xmlAttribute = "detailsVisibleOnClick", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "dropMode", type = StudioPropertyType.ENUMERATION,
@@ -1087,16 +1054,14 @@ public interface StudioComponents {
                             defaultValue = "true"),
                     @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "hierarchyProperty", type = StudioPropertyType.PROPERTY_REF,
-                            required = true, typeParameter = "T"),
+                            required = true, typeParameter = "E"),
                     @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
                     @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "metaClass", type = StudioPropertyType.ENTITY_NAME,
-                            typeParameter = "T"),
+                            typeParameter = "E"),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
-                    @StudioProperty(xmlAttribute = "multiSort", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "nestedNullBehavior", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.grid.Grid.NestedNullBehavior", defaultValue = "THROW",
                             options = {"THROW", "ALLOW_NULLS"}),
@@ -1105,7 +1070,7 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "selectionMode", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.grid.Grid.SelectionMode", defaultValue = "SINGLE",
-                            options = {"SINGLE", "MULTI"}),
+                            options = {"SINGLE", "MULTI", "NONE"}),
                     @StudioProperty(xmlAttribute = "showOrphans", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
@@ -1116,7 +1081,10 @@ public interface StudioComponents {
                             defaultValue = "true"),
                     @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE, initialValue = "100%"),
                     @StudioProperty(xmlAttribute = "editorBuffered", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false")
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "columnRendering", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "com.vaadin.flow.component.grid.ColumnRendering", defaultValue = "EAGER",
+                            options = {"EAGER", "LAZY"})
             },
             propertiesBindings = {
                     @StudioPropertiesBinding(
@@ -1136,8 +1104,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.textfield.JmixIntegerField",
             category = "Components",
             xmlElement = "integerField",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
                             options = {"NONE", "SENTENCES", "WORDS", "CHARACTERS"}),
@@ -1220,8 +1189,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.textfield.JmixNumberField",
             category = "Components",
             xmlElement = "numberField",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
@@ -1307,6 +1277,8 @@ public interface StudioComponents {
             xmlElement = "passwordField",
             icon = "io/jmix/flowui/kit/meta/icon/component/passwordField.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
@@ -1417,6 +1389,8 @@ public interface StudioComponents {
             xmlElement = "radioButtonGroup",
             icon = "io/jmix/flowui/kit/meta/icon/component/radioButtonGroup.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -1427,8 +1401,8 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "helperText", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
                     @StudioProperty(xmlAttribute = "itemsContainer",
-                            type = StudioPropertyType.COLLECTION_DATA_CONTAINER_REF, typeParameter = "T"),
-                    @StudioProperty(xmlAttribute = "itemsEnum", type = StudioPropertyType.ENUM_CLASS, typeParameter = "T"),
+                            type = StudioPropertyType.COLLECTION_DATA_CONTAINER_REF, typeParameter = "V"),
+                    @StudioProperty(xmlAttribute = "itemsEnum", type = StudioPropertyType.ENUM_CLASS, typeParameter = "V"),
                     @StudioProperty(xmlAttribute = "invalid", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
@@ -1437,7 +1411,7 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "property", type = StudioPropertyType.PROPERTY_REF,
-                            typeParameter = "T"),
+                            typeParameter = "V"),
                     @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "required", type = StudioPropertyType.BOOLEAN,
@@ -1464,11 +1438,13 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.select.JmixSelect",
             category = "Components",
             xmlElement = "select",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
                     @StudioProperty(xmlAttribute = "emptySelectionAllowed", type = StudioPropertyType.BOOLEAN),
@@ -1556,8 +1532,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.listbox.JmixListBox",
             category = "Components",
             xmlElement = "listBox",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -1586,8 +1563,9 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.listbox.JmixMultiSelectListBox",
             category = "Components",
             xmlElement = "multiSelectListBox",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
@@ -1618,6 +1596,8 @@ public interface StudioComponents {
             xmlElement = "textArea",
             icon = "io/jmix/flowui/kit/meta/icon/component/textArea.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
@@ -1656,8 +1636,10 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "pattern", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "placeholder", type = StudioPropertyType.LOCALIZED_STRING),
@@ -1697,6 +1679,8 @@ public interface StudioComponents {
             xmlElement = "textField",
             icon = "io/jmix/flowui/kit/meta/icon/component/textField.svg",
             properties = {
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autocapitalize", type = StudioPropertyType.ENUMERATION,
                             classFqn = "com.vaadin.flow.component.textfield.Autocapitalize", defaultValue = "NONE",
@@ -1737,8 +1721,10 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minLength", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "pattern", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "placeholder", type = StudioPropertyType.LOCALIZED_STRING),
@@ -1779,12 +1765,14 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.timepicker.TypedTimePicker",
             category = "Components",
             xmlElement = "timePicker",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "allowedCharPattern", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "autoOpen", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "overlayClass", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "clearButtonVisible", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
@@ -1838,6 +1826,8 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -1891,6 +1881,8 @@ public interface StudioComponents {
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "autofocus", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
@@ -1938,7 +1930,6 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.loginform.JmixLoginForm",
             category = "Components",
             xmlElement = "loginForm",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "forgotPasswordButtonVisible", type = StudioPropertyType.BOOLEAN),
@@ -1958,7 +1949,6 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.pagination.SimplePagination",
             category = "Components",
             xmlElement = "simplePagination",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "dataLoader", type = StudioPropertyType.DATA_LOADER_REF),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
@@ -2147,7 +2137,7 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.genericfilter.GenericFilter",
             category = "Components",
             xmlElement = "genericFilter",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
+            icon = "io/jmix/flowui/kit/meta/icon/component/genericFilter.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "autoApply", type = StudioPropertyType.BOOLEAN),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
@@ -2164,7 +2154,8 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
                     @StudioProperty(xmlAttribute = "opened", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "true"),
-                    @StudioProperty(xmlAttribute = "summaryText", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "summaryText", type = StudioPropertyType.LOCALIZED_STRING,
+                            defaultValue = "Filter"),
                     @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST,
                             options = {"filled", "reverse", "small"}),
                     @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
@@ -2179,9 +2170,10 @@ public interface StudioComponents {
             classFqn = "io.jmix.flowui.component.propertyfilter.PropertyFilter",
             category = "Components",
             xmlElement = "propertyFilter",
-            icon = "io/jmix/flowui/kit/meta/icon/unknownComponent.svg",
             properties = {
                     @StudioProperty(xmlAttribute = "autoApply", type = StudioPropertyType.BOOLEAN),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
                     @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
                     @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
                     @StudioProperty(xmlAttribute = "dataLoader", type = StudioPropertyType.DATA_LOADER_REF,
@@ -2214,8 +2206,8 @@ public interface StudioComponents {
                     @StudioProperty(xmlAttribute = "operationEditable", type = StudioPropertyType.BOOLEAN,
                             defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "operationTextVisible", type = StudioPropertyType.BOOLEAN,
-                            defaultValue = "false"),
-                    @StudioProperty(xmlAttribute = "parameterName", type = StudioPropertyType.LOCALIZED_STRING),
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "parameterName", type = StudioPropertyType.STRING),
                     @StudioProperty(xmlAttribute = "property", type = StudioPropertyType.PROPERTY_REF,
                             typeParameter = "V", required = true),
                     @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
@@ -2234,6 +2226,87 @@ public interface StudioComponents {
     )
     HorizontalLayout propertyFilter();
 
+    @StudioComponent(
+            name = "JpqlFilter",
+            classFqn = "io.jmix.flowui.component.jpqlfilter.JpqlFilter",
+            category = "Components",
+            xmlElement = "jpqlFilter",
+            properties = {
+                    @StudioProperty(xmlAttribute = "autoApply", type = StudioPropertyType.BOOLEAN),
+                    @StudioProperty(xmlAttribute = "ariaLabel", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "ariaLabelledBy", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "dataLoader", type = StudioPropertyType.DATA_LOADER_REF,
+                            required = true),
+                    @StudioProperty(xmlAttribute = "defaultValue", type = StudioPropertyType.STRING),
+                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "errorMessage", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "hasInExpression", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "helperText", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
+                    @StudioProperty(xmlAttribute = "invalid", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "labelPosition", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "io.jmix.flowui.component.SupportsLabelPosition$LabelPosition",
+                            options = {"ASIDE", "TOP"}, defaultValue = "ASIDE"),
+                    @StudioProperty(xmlAttribute = "labelVisible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "labelWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "parameterClass", type = StudioPropertyType.STRING,
+                            typeParameter = "V", required = true),
+                    @StudioProperty(xmlAttribute = "parameterName", type = StudioPropertyType.STRING),
+                    @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "required", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "requiredIndicatorVisible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "requiredMessage", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "themeNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE)
+            }
+    )
+    HorizontalLayout jpqlFilter();
+
+    @StudioComponent(
+            name = "GroupFilter",
+            classFqn = "io.jmix.flowui.component.logicalfilter.GroupFilter",
+            category = "Components",
+            xmlElement = "groupFilter",
+            icon = "io/jmix/flowui/kit/meta/icon/component/groupFilter.svg",
+            properties = {
+                    @StudioProperty(xmlAttribute = "autoApply", type = StudioPropertyType.BOOLEAN),
+                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "dataLoader", type = StudioPropertyType.DATA_LOADER_REF,
+                            required = true),
+                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
+                    @StudioProperty(xmlAttribute = "operation", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "io.jmix.flowui.component.logicalfilter.LogicalFilterComponent$Operation",
+                            options = {"AND", "OR"}, required = true),
+                    @StudioProperty(xmlAttribute = "operationTextVisible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "summaryText", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+            }
+
+    )
+    HorizontalLayout groupFilter();
 
     @StudioComponent(
             name = "Layout",
@@ -2262,4 +2335,98 @@ public interface StudioComponents {
             }
     )
     VerticalLayout layout();
+
+    @StudioComponent(
+            name = "CodeEditor",
+            classFqn = "io.jmix.flowui.component.codeeditor.CodeEditor",
+            category = "Components",
+            xmlElement = "codeEditor",
+            icon = "io/jmix/flowui/kit/meta/icon/component/codeEditor.svg",
+            properties = {
+                    @StudioProperty(xmlAttribute = "classNames", type = StudioPropertyType.VALUES_LIST),
+                    @StudioProperty(xmlAttribute = "colspan", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "dataContainer", type = StudioPropertyType.DATA_CONTAINER_REF),
+                    @StudioProperty(xmlAttribute = "enabled", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "errorMessage", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "fontSize", type = StudioPropertyType.SIZE,
+                            defaultValue = "1rem"),
+                    @StudioProperty(xmlAttribute = "height", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "helperText", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "highlightActiveLine", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "id", type = StudioPropertyType.COMPONENT_ID),
+                    @StudioProperty(xmlAttribute = "invalid", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "label", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "maxHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "maxWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minHeight", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "minWidth", type = StudioPropertyType.SIZE),
+                    @StudioProperty(xmlAttribute = "mode", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "io.jmix.flowui.kit.component.codeeditor.CodeEditorMode",
+                            options = {"ABAP", "ABC", "ACTIONSCRIPT", "ADA", "ALDA", "APACHE_CONF", "APEX",
+                                    "APPLESCRIPT", "AQL", "ASCIIDOC", "ASL", "ASSEMBLY_X_86", "AUTOHOTKEY", "BATCHFILE",
+                                    "BIBTEX", "C_9_SEARCH", "C_CPP", "CIRRU", "CLOJURE", "COBOL", "COFFEE",
+                                    "COLDFUSION", "CRYSTAL", "CSHARP", "CSOUND_DOCUMENT", "CSOUND_ORCHESTRA",
+                                    "CSOUND_SCORE", "CSP", "CSS", "CURLY", "D", "DART", "DIFF", "DJANGO", "DOCKERFILE",
+                                    "DOT", "DROOLS", "EDIFACT", "EIFFEL", "EJS", "ELIXIR", "ELM", "ERLANG", "FORTH",
+                                    "FORTRAN", "FSHARP", "FSL", "FTL", "GCODE", "GHERKIN", "GITIGNORE", "GLSL",
+                                    "GOBSTONES", "GOLANG", "GRAPHQLSCHEMA", "GROOVY", "HAML", "HANDLEBARS", "HASKELL",
+                                    "HASKELL_CABAL", "HAXE", "HJSON", "HTML", "HTML_ELIXIR", "HTML_RUBY", "INI", "IO",
+                                    "ION", "JACK", "JADE", "JAVA", "JAVASCRIPT", "JEXL", "JSON", "JSON_5", "JSONIQ",
+                                    "JSP", "JSSM", "JSX", "JULIA", "KOTLIN", "LATEX", "LATTE", "LESS", "LIQUID", "LISP",
+                                    "LIVESCRIPT", "LOGIQL", "LOGTALK", "LSL", "LUA", "LUAPAGE", "LUCENE", "MAKEFILE",
+                                    "MARKDOWN", "MASK", "MATLAB", "MAZE", "MEDIAWIKI", "MEL", "MIPS", "MIXAL",
+                                    "MUSHCODE", "MYSQL", "NGINX", "NIM", "NIX", "NSIS", "NUNJUCKS", "OBJECTIVEC",
+                                    "OCAML", "PARTIQL", "PASCAL", "PERL", "PGSQL", "PHP", "PHP_LARAVEL_BLADE", "PIG",
+                                    "PLAIN_TEXT", "PLSQL", "POWERSHELL", "PRAAT", "PRISMA", "PROLOG", "PROPERTIES",
+                                    "PROTOBUF", "PUPPET", "PYTHON", "QML", "R", "RAKU", "RAZOR", "RDOC", "RED",
+                                    "REDSHIFT", "RHTML", "ROBOT", "RST", "RUBY", "RUST", "SAC", "SASS", "SCAD",
+                                    "SCALA", "SCHEME", "SCRYPT", "SCSS", "SH", "SJS", "SLIM", "SMARTY", "SMITHY",
+                                    "SNIPPETS", "SOY_TEMPLATE", "SPACE", "SPARQL", "SQL", "SQLSERVER", "STYLUS",
+                                    "SVG", "SWIFT", "TCL", "TERRAFORM", "TEX", "TEXT", "TEXTILE", "TOML", "TSX",
+                                    "TURTLE", "TWIG", "TYPESCRIPT", "VALA", "VBSCRIPT", "VELOCITY", "VERILOG", "VHDL",
+                                    "VISUALFORCE", "WOLLOK", "XML", "XQUERY", "YAML", "ZEEK"}),
+                    @StudioProperty(xmlAttribute = "printMarginColumn", type = StudioPropertyType.INTEGER,
+                            defaultValue = "80"),
+                    @StudioProperty(xmlAttribute = "property", type = StudioPropertyType.PROPERTY_REF),
+                    @StudioProperty(xmlAttribute = "readOnly", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "required", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "requiredIndicatorVisible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
+                    @StudioProperty(xmlAttribute = "requiredMessage", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "showGutter", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "showLineNumbers", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "showPrintMargin", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "tabIndex", type = StudioPropertyType.INTEGER),
+                    @StudioProperty(xmlAttribute = "theme", type = StudioPropertyType.ENUMERATION,
+                            classFqn = "io.jmix.flowui.kit.component.codeeditor.CodeEditorTheme",
+                            options = {"AMBIANCE", "CHAOS", "CHROME", "CLOUD_9_DAY", "CLOUD_9_NIGHT",
+                                    "CLOUD_9_NIGHT_LOW_COLOR", "CLOUDS", "CLOUDS_MIDNIGHT", "COBALT", "CRIMSON_EDITOR",
+                                    "DAWN", "DRACULA", "DREAMWEAVER", "ECLIPSE", "GITHUB", "GOB", "GRUVBOX",
+                                    "GRUVBOX_DARK_HARD", "GRUVBOX_LIGHT_HARD", "IDLE_FINGERS", "IPLASTIC",
+                                    "KATZENMILCH", "KR_THEME", "KUROIR", "MERBIVORE", "MERBIVORE_SOFT",
+                                    "MONO_INDUSTRIAL", "MONOKAI", "NORD_DARK", "ONE_DARK", "PASTEL_ON_DARK",
+                                    "SOLARIZED_DARK", "SOLARIZED_LIGHT", "SQLSERVER", "TERMINAL", "TEXTMATE",
+                                    "TOMORROW", "TOMORROW_NIGHT", "TOMORROW_NIGHT_BLUE", "TOMORROW_NIGHT_BRIGHT",
+                                    "TOMORROW_NIGHT_EIGHTIES", "TWILIGHT", "VIBRANT_INK", "XCODE"}),
+                    @StudioProperty(xmlAttribute = "title", type = StudioPropertyType.LOCALIZED_STRING),
+                    @StudioProperty(xmlAttribute = "visible", type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "true"),
+                    @StudioProperty(xmlAttribute = "width", type = StudioPropertyType.SIZE)
+            },
+            propertiesBindings = {
+                    @StudioPropertiesBinding(
+                            source = "dataContainer",
+                            item = "property"
+                    )
+            }
+    )
+    JmixCodeEditor codeEditor();
 }

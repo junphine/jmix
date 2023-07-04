@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static io.jmix.flowui.kit.component.FlowuiComponentUtils.parseIcon;
+import static io.jmix.flowui.kit.component.ComponentUtils.parseIcon;
 
 @Component("flowui_ActionLoaderSupport")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -147,7 +147,7 @@ public class ActionLoaderSupport implements ApplicationContextAware {
                 context.getMessageGroup(), targetAction::setText);
         loaderSupport.loadResourceString(element, "description",
                 context.getMessageGroup(), targetAction::setDescription);
-        loaderSupport.loadBoolean(element, "enable", targetAction::setEnabled);
+        loaderSupport.loadBoolean(element, "enabled", targetAction::setEnabled);
         loaderSupport.loadBoolean(element, "visible", targetAction::setVisible);
 
         loaderSupport.loadEnum(element, ActionVariant.class, "actionVariant",

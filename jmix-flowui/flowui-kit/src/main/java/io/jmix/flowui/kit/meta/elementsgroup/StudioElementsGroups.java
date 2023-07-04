@@ -59,8 +59,15 @@ public interface StudioElementsGroups {
             name = "ResponsiveSteps",
             elementClassFqn = "com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep",
             xmlElement = "responsiveSteps",
-            target = {"com.vaadin.flow.component.formlayout.FormLayout",
-                    "io.jmix.flowui.component.genericfilter.GenericFilter"}
+            target = {"com.vaadin.flow.component.formlayout.FormLayout"}
+    )
+    void formLayoutResponsiveSteps();
+
+    @StudioElementsGroup(
+            name = "ResponsiveSteps",
+            elementClassFqn = "io.jmix.flowui.component.SupportsResponsiveSteps.ResponsiveStep",
+            xmlElement = "responsiveSteps",
+            target = {"io.jmix.flowui.component.SupportsResponsiveSteps"}
     )
     void responsiveSteps();
 
@@ -71,7 +78,6 @@ public interface StudioElementsGroups {
             icon = "io/jmix/flowui/kit/meta/icon/elementsgroup/validators.svg",
             target = {"io.jmix.flowui.component.SupportsValidation"},
             unsupportedTarget = {
-                    "io.jmix.flowui.kit.component.combobox.ComboBoxPicker",
                     "io.jmix.flowui.kit.component.upload.AbstractSingleUploadField",
                     "io.jmix.flowui.component.checkboxgroup.JmixCheckboxGroup",
                     "io.jmix.flowui.component.radiobuttongroup.JmixRadioButtonGroup",
@@ -80,4 +86,22 @@ public interface StudioElementsGroups {
             }
     )
     void validator();
+
+    @StudioElementsGroup(
+            name = "Configurations",
+            elementClassFqn = "io.jmix.flowui.component.genericfilter.configuration.DesignTimeConfiguration",
+            xmlElement = "configurations",
+            icon = "io/jmix/flowui/kit/meta/icon/elementsgroup/configurations.svg",
+            target = {"io.jmix.flowui.component.genericfilter.GenericFilter"}
+    )
+    void configurations();
+
+    @StudioElementsGroup(
+            name = "Conditions",
+            elementClassFqn = "io.jmix.flowui.component.filter.FilterComponent",
+            xmlElement = "conditions",
+            icon = "io/jmix/flowui/kit/meta/icon/elementsgroup/conditions.svg",
+            target = {"io.jmix.flowui.component.genericfilter.GenericFilter"}
+    )
+    void conditions();
 }

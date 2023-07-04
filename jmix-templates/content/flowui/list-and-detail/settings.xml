@@ -40,8 +40,10 @@
     <steps>
         <step name="Entity list and detail views" order="0"/>
         <step name="Entity list and detail options" order="1"/>
-        <step name="Entity list view fetch plan" order="2"/>
-        <step name="Entity detail view fetch plan" order="3"/>
+        <step name="Entity list view fetch plan" order="2"
+              description="List view fetch plan determines entity attributes and associations to be loaded from the database and displayed in the dataGrid component"/>
+        <step name="Entity detail view fetch plan" order="3"
+              description="Detail view fetch plan determines entity attributes and associations to be loaded from the database and edited in the view components"/>
     </steps>
 
     <!--properties-->
@@ -67,6 +69,11 @@
               defaultValue="create,edit,remove"
               propertyType="MULTI_OPTION"
               optionsString="${actionSearch.getWizardTableActions()}"/>
+    <property caption="Create generic filter"
+              code="createGenericFilter"
+              step="1"
+              defaultValue="true"
+              propertyType="BOOLEAN"/>
     <property caption="Multiselect"
               code="multiselect"
               step="1"
@@ -118,7 +125,7 @@
     </property>
     <property caption="List view route"
               code="listRoute"
-              propertyType="STRING"
+              propertyType="FLOW_VIEW_ROUTE"
               group="list"
               advanced="true"
               dynamic="true"
@@ -161,7 +168,7 @@
     </property>
     <property caption="Detail view route"
               code="detailRoute"
-              propertyType="STRING"
+              propertyType="FLOW_VIEW_ROUTE"
               group="detail"
               advanced="true"
               dynamic="true"
@@ -188,11 +195,17 @@
     <source fileExt="java"
             group="list"
             name="../list/controller"/>
+    <source fileExt="kt"
+            group="list"
+            name="../list/controller"/>
 
     <source fileExt="xml"
             group="detail"
             name="../detail/descriptor"/>
     <source fileExt="java"
+            group="detail"
+            name="../detail/controller"/>
+    <source fileExt="kt"
             group="detail"
             name="../detail/controller"/>
 </template>

@@ -20,8 +20,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
-import com.haulmont.yarg.reporting.ReportOutputDocument;
-import com.haulmont.yarg.util.converter.ObjectToStringConverter;
+import io.jmix.reports.yarg.reporting.ReportOutputDocument;
+import io.jmix.reports.yarg.util.converter.ObjectToStringConverter;
 import io.jmix.core.*;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
@@ -40,7 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 

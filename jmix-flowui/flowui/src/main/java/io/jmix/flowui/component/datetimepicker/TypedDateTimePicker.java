@@ -19,6 +19,7 @@ package io.jmix.flowui.component.datetimepicker;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.HasAriaLabel;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.shared.Registration;
@@ -40,17 +41,18 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class TypedDateTimePicker<V extends Comparable> extends DateTimePicker
         implements SupportsValueSource<V>, SupportsTypedValue<TypedDateTimePicker<V>,
         ComponentValueChangeEvent<DateTimePicker, LocalDateTime>, V, LocalDateTime>, HasZoneId,
         SupportsDatatype<V>, SupportsValidation<V>, SupportsStatusChangeHandler<TypedDateTimePicker<V>>,
-        HasRequired, InitializingBean, ApplicationContextAware {
+        HasRequired, HasAriaLabel, InitializingBean, ApplicationContextAware {
 
     protected ApplicationContext applicationContext;
     protected DateTimeTransformations dateTimeTransformations;
@@ -134,6 +136,20 @@ public class TypedDateTimePicker<V extends Comparable> extends DateTimePicker
         fieldDelegate.setDatatype(datatype);
     }
 
+    @Override
+    public void setRequiredIndicatorVisible(boolean requiredIndicatorVisible) {
+        super.setRequiredIndicatorVisible(requiredIndicatorVisible);
+
+        fieldDelegate.updateInvalidState();
+    }
+
+    @Override
+    public void setRequired(boolean required) {
+        HasRequired.super.setRequired(required);
+
+        fieldDelegate.updateInvalidState();
+    }
+
     @Nullable
     @Override
     public String getRequiredMessage() {
@@ -157,7 +173,7 @@ public class TypedDateTimePicker<V extends Comparable> extends DateTimePicker
 
     @Override
     protected void validate() {
-        isInvalid();
+        fieldDelegate.updateInvalidState();
     }
 
     @Override
@@ -203,6 +219,16 @@ public class TypedDateTimePicker<V extends Comparable> extends DateTimePicker
         super.setMax(max);
 
         fieldDelegate.setMax(max);
+    }
+
+    @Override
+    public Optional<String> getAriaLabelledBy() {
+        return Optional.ofNullable(getElement().getProperty("accessibleNameRef"));
+    }
+
+    @Override
+    public void setAriaLabelledBy(String labelledBy) {
+        getElement().setProperty("accessibleNameRef", labelledBy);
     }
 
     @Nullable

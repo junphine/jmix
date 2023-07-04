@@ -34,11 +34,12 @@ import io.jmix.flowui.component.SupportsDatatype;
 import io.jmix.flowui.component.propertyfilter.PropertyFilter;
 import io.jmix.flowui.component.propertyfilter.PropertyFilter.Operation;
 import io.jmix.flowui.component.select.JmixSelect;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.data.SupportsValueSource;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 @org.springframework.stereotype.Component("flowui_PropertyFilterComponentGenerationStrategy")
 public class PropertyFilterComponentGenerationStrategy extends AbstractComponentGenerationStrategy implements Ordered {
@@ -96,6 +97,19 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         return super.createComponentInternal(context);
     }
 
+    @Nullable
+    @Override
+    protected Component createEntityField(ComponentGenerationContext context) {
+        Component entityComponent = entityFieldCreationSupport.createEntityField(context, true);
+
+        if (entityComponent == null) {
+            return null;
+        }
+
+        setValueSource((SupportsValueSource<?>) entityComponent, context);
+        return entityComponent;
+    }
+
     @SuppressWarnings("rawtypes")
     @Nullable
     @Override
@@ -149,7 +163,7 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         component.setEmptySelectionAllowed(true);
         component.addClassName(UNARY_FIELD_CLASS_NAME);
 
-        FlowuiComponentUtils.setItemsMap(component, ImmutableMap.of(
+        ComponentUtils.setItemsMap(component, ImmutableMap.of(
                 Boolean.TRUE, messages.getMessage("boolean.yes"),
                 Boolean.FALSE, messages.getMessage("boolean.no")
         ));

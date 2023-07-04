@@ -11,17 +11,16 @@ import com.vaadin.flow.spring.VaadinConfigurationProperties;
 import com.vaadin.flow.spring.security.RequestUtil;
 import com.vaadin.flow.spring.security.VaadinDefaultRequestCache;
 import com.vaadin.flow.spring.security.VaadinSavedRequestAwareAuthenticationSuccessHandler;
-import io.jmix.core.JmixOrder;
-import io.jmix.flowui.FlowuiProperties;
+import io.jmix.core.JmixSecurityFilterChainOrder;
+import io.jmix.flowui.UiProperties;
 import io.jmix.flowui.view.View;
 import io.jmix.flowui.view.ViewRegistry;
 import io.jmix.security.SecurityConfigurers;
 import io.jmix.security.configurer.AnonymousConfigurer;
 import io.jmix.security.configurer.RememberMeConfigurer;
 import io.jmix.security.configurer.SessionManagementConfigurer;
-import io.jmix.security.impl.StandardAuthenticationProvidersProducer;
-import io.jmix.securityflowui.access.FlowuiViewAccessChecker;
-import jakarta.annotation.Nullable;
+import io.jmix.securityflowui.access.UiViewAccessChecker;
+import org.springframework.lang.Nullable;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,12 +28,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -57,7 +54,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -81,8 +77,8 @@ public class FlowuiSecurityConfiguration {
     protected VaadinConfigurationProperties configurationProperties;
     protected RequestUtil requestUtil;
 
-    protected FlowuiViewAccessChecker viewAccessChecker;
-    protected FlowuiProperties flowuiProperties;
+    protected UiViewAccessChecker viewAccessChecker;
+    protected UiProperties uiProperties;
     protected ViewRegistry viewRegistry;
 
     @Autowired
@@ -106,13 +102,13 @@ public class FlowuiSecurityConfiguration {
     }
 
     @Autowired
-    public void setViewAccessChecker(FlowuiViewAccessChecker viewAccessChecker) {
+    public void setViewAccessChecker(UiViewAccessChecker viewAccessChecker) {
         this.viewAccessChecker = viewAccessChecker;
     }
 
     @Autowired
-    public void setFlowuiProperties(FlowuiProperties flowuiProperties) {
-        this.flowuiProperties = flowuiProperties;
+    public void setUiProperties(UiProperties uiProperties) {
+        this.uiProperties = uiProperties;
     }
 
     @Autowired
@@ -132,8 +128,8 @@ public class FlowuiSecurityConfiguration {
         return (web) -> web.ignoring().requestMatchers(getDefaultWebSecurityIgnoreMatcher(getUrlMapping()));
     }
 
-    @Bean("sec_FlowUiSecurityFilterChain")
-    @Order(JmixOrder.HIGHEST_PRECEDENCE + 300)
+    @Bean("sec_UiSecurityFilterChain")
+    @Order(JmixSecurityFilterChainOrder.FLOWUI)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         configure(http);
 
@@ -196,22 +192,8 @@ public class FlowuiSecurityConfiguration {
         viewAccessChecker.enable();
     }
 
-    @Bean("sec_AuthenticationManager")
-    public AuthenticationManager providerManager(StandardAuthenticationProvidersProducer providersProducer,
-                                                 AuthenticationEventPublisher authenticationEventPublisher) {
-        List<AuthenticationProvider> providers = providersProducer.getStandardProviders();
-        ProviderManager providerManager = new ProviderManager(providers);
-        providerManager.setAuthenticationEventPublisher(authenticationEventPublisher);
-        return providerManager;
-    }
-
-    @Bean("sec_AuthenticationEventPublisher")
-    public DefaultAuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher publisher) {
-        return new DefaultAuthenticationEventPublisher(publisher);
-    }
-
     protected void initLoginView(HttpSecurity http) throws Exception {
-        String loginViewId = flowuiProperties.getLoginViewId();
+        String loginViewId = uiProperties.getLoginViewId();
         if (Strings.isNullOrEmpty(loginViewId)) {
             log.debug("Login view Id is not defined");
             return;

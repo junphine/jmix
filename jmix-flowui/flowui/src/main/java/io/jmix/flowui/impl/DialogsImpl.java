@@ -35,7 +35,7 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import io.jmix.core.Messages;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.Dialogs;
-import io.jmix.flowui.FlowuiViewProperties;
+import io.jmix.flowui.UiViewProperties;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.action.DialogAction;
 import io.jmix.flowui.action.inputdialog.InputDialogAction;
@@ -51,7 +51,7 @@ import io.jmix.flowui.view.View;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -64,14 +64,14 @@ public class DialogsImpl implements Dialogs {
     protected static final String WIDTH = "25em";
 
     protected Messages messages;
-    protected FlowuiViewProperties flowUiViewProperties;
+    protected UiViewProperties flowUiViewProperties;
     protected DialogWindows dialogWindows;
     protected UiComponents uiComponents;
     protected BackgroundWorker backgroundWorker;
     protected ApplicationContext applicationContext;
 
     public DialogsImpl(ApplicationContext applicationContext, Messages messages,
-                       FlowuiViewProperties flowUiViewProperties,
+                       UiViewProperties flowUiViewProperties,
                        DialogWindows dialogWindows, UiComponents uiComponents, BackgroundWorker backgroundWorker) {
         this.messages = messages;
         this.flowUiViewProperties = flowUiViewProperties;

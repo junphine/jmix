@@ -23,6 +23,7 @@ import com.vaadin.flow.component.orderedlayout.BoxSizing;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.ThemableLayout;
 import com.vaadin.flow.component.shared.HasAllowedCharPattern;
+import com.vaadin.flow.component.shared.HasOverlayClassName;
 import com.vaadin.flow.component.shared.HasTooltip;
 import com.vaadin.flow.component.shared.Tooltip;
 import com.vaadin.flow.component.textfield.*;
@@ -33,6 +34,7 @@ import io.jmix.core.impl.DatatypeRegistryImpl;
 import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.flowui.component.HasRequired;
 import io.jmix.flowui.component.SupportsDatatype;
+import io.jmix.flowui.component.SupportsResponsiveSteps;
 import io.jmix.flowui.component.SupportsValidation;
 import io.jmix.flowui.component.formatter.FormatterLoadFactory;
 import io.jmix.flowui.component.validation.Validator;
@@ -53,8 +55,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -152,6 +155,40 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
         }
     }
 
+    public void loadResponsiveSteps(SupportsResponsiveSteps resultComponent, Element element) {
+        //noinspection DuplicatedCode
+        Element responsiveSteps = element.element("responsiveSteps");
+        if (responsiveSteps == null) {
+            return;
+        }
+
+        List<Element> responsiveStepList = responsiveSteps.elements("responsiveStep");
+        if (responsiveStepList.isEmpty()) {
+            throw new GuiDevelopmentException(responsiveSteps.getName() + "can't be empty", context);
+        }
+
+        List<SupportsResponsiveSteps.ResponsiveStep> pendingSetResponsiveSteps = new ArrayList<>();
+        for (Element subElement : responsiveStepList) {
+            pendingSetResponsiveSteps.add(loadResponsiveStep(subElement));
+        }
+
+        resultComponent.setResponsiveSteps(pendingSetResponsiveSteps);
+    }
+
+    protected SupportsResponsiveSteps.ResponsiveStep loadResponsiveStep(Element element) {
+        String minWidth = loaderSupport.loadString(element, "minWidth")
+                .orElseThrow(() -> new GuiDevelopmentException("'minWidth' can't be empty", context));
+        Integer columns = loaderSupport.loadInteger(element, "columns")
+                .orElse(1);
+        SupportsResponsiveSteps.ResponsiveStep.LabelsPosition labelsPosition =
+                loaderSupport.loadEnum(element,
+                                SupportsResponsiveSteps.ResponsiveStep.LabelsPosition.class,
+                                "labelsPosition")
+                        .orElse(null);
+
+        return new SupportsResponsiveSteps.ResponsiveStep(minWidth, columns, labelsPosition);
+    }
+
     public void loadAlignItems(FlexComponent component, Element element) {
         loaderSupport.loadEnum(element, FlexComponent.Alignment.class, "alignItems", component::setAlignItems);
     }
@@ -206,6 +243,11 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
     public void loadClassNames(HasStyle component, Element element) {
         loaderSupport.loadString(element, "classNames")
                 .ifPresent(classNamesString -> split(classNamesString, component::addClassName));
+    }
+
+    public void loadOverlayClass(HasOverlayClassName component, Element element) {
+        loaderSupport.loadString(element, "overlayClass")
+                .ifPresent(component::setOverlayClassName);
     }
 
     public void loadBadge(HasText component, Element element) {
@@ -267,6 +309,7 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
 
     public void loadAriaLabel(HasAriaLabel component, Element element) {
         loaderSupport.loadResourceString(element, "ariaLabel", context.getMessageGroup(), component::setAriaLabel);
+        loaderSupport.loadResourceString(element, "ariaLabelledBy", context.getMessageGroup(), component::setAriaLabel);
     }
 
     public void loadWhiteSpace(HasText component, Element element) {
@@ -319,7 +362,7 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
 
     public Optional<Icon> loadIcon(Element element) {
         return loaderSupport.loadString(element, "icon")
-                .map(FlowuiComponentUtils::parseIcon);
+                .map(ComponentUtils::parseIcon);
     }
 
     public void loadIcon(Element element, Consumer<Icon> setter) {

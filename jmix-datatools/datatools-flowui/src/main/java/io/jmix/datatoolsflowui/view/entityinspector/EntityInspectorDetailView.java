@@ -38,8 +38,8 @@ import io.jmix.datatoolsflowui.view.entityinspector.assistant.InspectorFetchPlan
 import io.jmix.datatoolsflowui.view.entityinspector.assistant.InspectorFormLayoutBuilder;
 import io.jmix.flowui.Actions;
 import io.jmix.flowui.UiComponents;
-import io.jmix.flowui.accesscontext.FlowuiEntityAttributeContext;
-import io.jmix.flowui.accesscontext.FlowuiEntityContext;
+import io.jmix.flowui.accesscontext.UiEntityAttributeContext;
+import io.jmix.flowui.accesscontext.UiEntityContext;
 import io.jmix.flowui.action.list.*;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.action.Action;
@@ -49,7 +49,7 @@ import io.jmix.flowui.view.*;
 import io.jmix.flowui.view.navigation.UrlParamSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -166,10 +166,10 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
     }
 
     @Override
-    public void setEntityToEdit(Object entity) {
-        super.setEntityToEdit(entity);
-        container = initMainContainer(entity);
-        isNew = entityStates.isNew(entity);
+    protected void setupEntityToEdit(Object entityToEdit) {
+        container = initMainContainer(entityToEdit);
+        isNew = entityStates.isNew(entityToEdit);
+        super.setupEntityToEdit(entityToEdit);
     }
 
     protected InstanceContainer initMainContainer(Object entity) {
@@ -293,12 +293,12 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
     protected void addDataGrid(InstanceContainer parent, MetaProperty childMeta) {
         MetaClass meta = childMeta.getRange().asClass();
 
-        FlowuiEntityContext entityContext = new FlowuiEntityContext(meta);
+        UiEntityContext entityContext = new UiEntityContext(meta);
         accessManager.applyRegisteredConstraints(entityContext);
 
 
-        FlowuiEntityAttributeContext attributeContext =
-                new FlowuiEntityAttributeContext(parent.getEntityMetaClass(), childMeta.getName());
+        UiEntityAttributeContext attributeContext =
+                new UiEntityAttributeContext(parent.getEntityMetaClass(), childMeta.getName());
         accessManager.applyRegisteredConstraints(attributeContext);
 
         //don't show empty dataGrid if the user don't have permissions on the attribute or the entity
@@ -392,7 +392,7 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
     }
 
     protected AddAction createAddAction(DataGrid<?> dataGrid, MetaProperty metaProperty) {
-        EntityInspectorAddAction addAction = actions.create(EntityInspectorAddAction.class);
+        EntityInspectorAddAction addAction = actions.create(EntityInspectorAddAction.ID);
         addAction.setTarget(dataGrid);
         addAction.setViewClass(EntityInspectorListView.class);
         addAction.setEntityNameParameter(getMetaPropertyClass(metaProperty).getName());
@@ -408,7 +408,7 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
     }
 
     protected CreateAction createCreateAction(DataGrid<?> dataGrid, MetaProperty metaProperty) {
-        EntityInspectorCreateAction createAction = actions.create(EntityInspectorCreateAction.class);
+        EntityInspectorCreateAction createAction = actions.create(EntityInspectorCreateAction.ID);
         MetaProperty inverseProperty = metaProperty.getInverse();
 
         createAction.setOpenMode(OpenMode.DIALOG);
@@ -452,7 +452,7 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
     protected EditAction createEditAction(DataGrid<?> dataGrid,
                                           MetaProperty metaProperty,
                                           CollectionContainer dataGridContainer) {
-        EntityInspectorEditAction editAction = actions.create(EntityInspectorEditAction.class);
+        EntityInspectorEditAction editAction = actions.create(EntityInspectorEditAction.ID);
 
         editAction.setTarget(dataGrid);
         editAction.setOpenMode(OpenMode.DIALOG);
@@ -495,11 +495,11 @@ public class EntityInspectorDetailView extends StandardDetailView<Object> {
         SecuredListDataComponentAction result;
         switch (metaProperty.getType()) {
             case COMPOSITION:
-                result = actions.create(RemoveAction.class);
+                result = actions.create(RemoveAction.ID);
                 result.setTarget(dataGrid);
                 break;
             case ASSOCIATION:
-                result = actions.create(ExcludeAction.class);
+                result = actions.create(ExcludeAction.ID);
                 result.setTarget(dataGrid);
                 break;
             default:

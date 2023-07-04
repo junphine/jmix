@@ -775,6 +775,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="gridColumnRendering">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="EAGER"/>
+            <xs:enumeration value="LAZY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="gridNestedNullBehaviorEnum">
         <xs:restriction base="xs:string">
             <xs:enumeration value="THROW"/>
@@ -787,6 +794,242 @@
             <xs:enumeration value="START"/>
             <xs:enumeration value="CENTER"/>
             <xs:enumeration value="END"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="codeEditorTheme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AMBIANCE"/>
+            <xs:enumeration value="CHAOS"/>
+            <xs:enumeration value="CHROME"/>
+            <xs:enumeration value="CLOUD_9_DAY"/>
+            <xs:enumeration value="CLOUD_9_NIGHT"/>
+            <xs:enumeration value="CLOUD_9_NIGHT_LOW_COLOR"/>
+            <xs:enumeration value="CLOUDS"/>
+            <xs:enumeration value="CLOUDS_MIDNIGHT"/>
+            <xs:enumeration value="COBALT"/>
+            <xs:enumeration value="CRIMSON_EDITOR"/>
+            <xs:enumeration value="DAWN"/>
+            <xs:enumeration value="DRACULA"/>
+            <xs:enumeration value="DREAMWEAVER"/>
+            <xs:enumeration value="ECLIPSE"/>
+            <xs:enumeration value="GITHUB"/>
+            <xs:enumeration value="GOB"/>
+            <xs:enumeration value="GRUVBOX"/>
+            <xs:enumeration value="GRUVBOX_DARK_HARD"/>
+            <xs:enumeration value="GRUVBOX_LIGHT_HARD"/>
+            <xs:enumeration value="IDLE_FINGERS"/>
+            <xs:enumeration value="IPLASTIC"/>
+            <xs:enumeration value="KATZENMILCH"/>
+            <xs:enumeration value="KR_THEME"/>
+            <xs:enumeration value="KUROIR"/>
+            <xs:enumeration value="MERBIVORE"/>
+            <xs:enumeration value="MERBIVORE_SOFT"/>
+            <xs:enumeration value="MONO_INDUSTRIAL"/>
+            <xs:enumeration value="MONOKAI"/>
+            <xs:enumeration value="NORD_DARK"/>
+            <xs:enumeration value="ONE_DARK"/>
+            <xs:enumeration value="PASTEL_ON_DARK"/>
+            <xs:enumeration value="SOLARIZED_DARK"/>
+            <xs:enumeration value="SOLARIZED_LIGHT"/>
+            <xs:enumeration value="SQLSERVER"/>
+            <xs:enumeration value="TERMINAL"/>
+            <xs:enumeration value="TEXTMATE"/>
+            <xs:enumeration value="TOMORROW"/>
+            <xs:enumeration value="TOMORROW_NIGHT"/>
+            <xs:enumeration value="TOMORROW_NIGHT_BLUE"/>
+            <xs:enumeration value="TOMORROW_NIGHT_BRIGHT"/>
+            <xs:enumeration value="TOMORROW_NIGHT_EIGHTIES"/>
+            <xs:enumeration value="TWILIGHT"/>
+            <xs:enumeration value="VIBRANT_INK"/>
+            <xs:enumeration value="XCODE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="codeEditorMode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ABAP"/>
+            <xs:enumeration value="ABC"/>
+            <xs:enumeration value="ACTIONSCRIPT"/>
+            <xs:enumeration value="ADA"/>
+            <xs:enumeration value="ALDA"/>
+            <xs:enumeration value="APACHE_CONF"/>
+            <xs:enumeration value="APEX"/>
+            <xs:enumeration value="APPLESCRIPT"/>
+            <xs:enumeration value="AQL"/>
+            <xs:enumeration value="ASCIIDOC"/>
+            <xs:enumeration value="ASL"/>
+            <xs:enumeration value="ASSEMBLY_X_86"/>
+            <xs:enumeration value="AUTOHOTKEY"/>
+            <xs:enumeration value="BATCHFILE"/>
+            <xs:enumeration value="BIBTEX"/>
+            <xs:enumeration value="C_9_SEARCH"/>
+            <xs:enumeration value="C_CPP"/>
+            <xs:enumeration value="CIRRU"/>
+            <xs:enumeration value="CLOJURE"/>
+            <xs:enumeration value="COBOL"/>
+            <xs:enumeration value="COFFEE"/>
+            <xs:enumeration value="COLDFUSION"/>
+            <xs:enumeration value="CRYSTAL"/>
+            <xs:enumeration value="CSHARP"/>
+            <xs:enumeration value="CSOUND_DOCUMENT"/>
+            <xs:enumeration value="CSOUND_ORCHESTRA"/>
+            <xs:enumeration value="CSOUND_SCORE"/>
+            <xs:enumeration value="CSP"/>
+            <xs:enumeration value="CSS"/>
+            <xs:enumeration value="CURLY"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="DART"/>
+            <xs:enumeration value="DIFF"/>
+            <xs:enumeration value="DJANGO"/>
+            <xs:enumeration value="DOCKERFILE"/>
+            <xs:enumeration value="DOT"/>
+            <xs:enumeration value="DROOLS"/>
+            <xs:enumeration value="EDIFACT"/>
+            <xs:enumeration value="EIFFEL"/>
+            <xs:enumeration value="EJS"/>
+            <xs:enumeration value="ELIXIR"/>
+            <xs:enumeration value="ELM"/>
+            <xs:enumeration value="ERLANG"/>
+            <xs:enumeration value="FORTH"/>
+            <xs:enumeration value="FORTRAN"/>
+            <xs:enumeration value="FSHARP"/>
+            <xs:enumeration value="FSL"/>
+            <xs:enumeration value="FTL"/>
+            <xs:enumeration value="GCODE"/>
+            <xs:enumeration value="GHERKIN"/>
+            <xs:enumeration value="GITIGNORE"/>
+            <xs:enumeration value="GLSL"/>
+            <xs:enumeration value="GOBSTONES"/>
+            <xs:enumeration value="GOLANG"/>
+            <xs:enumeration value="GRAPHQLSCHEMA"/>
+            <xs:enumeration value="GROOVY"/>
+            <xs:enumeration value="HAML"/>
+            <xs:enumeration value="HANDLEBARS"/>
+            <xs:enumeration value="HASKELL"/>
+            <xs:enumeration value="HASKELL_CABAL"/>
+            <xs:enumeration value="HAXE"/>
+            <xs:enumeration value="HJSON"/>
+            <xs:enumeration value="HTML"/>
+            <xs:enumeration value="HTML_ELIXIR"/>
+            <xs:enumeration value="HTML_RUBY"/>
+            <xs:enumeration value="INI"/>
+            <xs:enumeration value="IO"/>
+            <xs:enumeration value="ION"/>
+            <xs:enumeration value="JACK"/>
+            <xs:enumeration value="JADE"/>
+            <xs:enumeration value="JAVA"/>
+            <xs:enumeration value="JAVASCRIPT"/>
+            <xs:enumeration value="JEXL"/>
+            <xs:enumeration value="JSON"/>
+            <xs:enumeration value="JSON_5"/>
+            <xs:enumeration value="JSONIQ"/>
+            <xs:enumeration value="JSP"/>
+            <xs:enumeration value="JSSM"/>
+            <xs:enumeration value="JSX"/>
+            <xs:enumeration value="JULIA"/>
+            <xs:enumeration value="KOTLIN"/>
+            <xs:enumeration value="LATEX"/>
+            <xs:enumeration value="LATTE"/>
+            <xs:enumeration value="LESS"/>
+            <xs:enumeration value="LIQUID"/>
+            <xs:enumeration value="LISP"/>
+            <xs:enumeration value="LIVESCRIPT"/>
+            <xs:enumeration value="LOGIQL"/>
+            <xs:enumeration value="LOGTALK"/>
+            <xs:enumeration value="LSL"/>
+            <xs:enumeration value="LUA"/>
+            <xs:enumeration value="LUAPAGE"/>
+            <xs:enumeration value="LUCENE"/>
+            <xs:enumeration value="MAKEFILE"/>
+            <xs:enumeration value="MARKDOWN"/>
+            <xs:enumeration value="MASK"/>
+            <xs:enumeration value="MATLAB"/>
+            <xs:enumeration value="MAZE"/>
+            <xs:enumeration value="MEDIAWIKI"/>
+            <xs:enumeration value="MEL"/>
+            <xs:enumeration value="MIPS"/>
+            <xs:enumeration value="MIXAL"/>
+            <xs:enumeration value="MUSHCODE"/>
+            <xs:enumeration value="MYSQL"/>
+            <xs:enumeration value="NGINX"/>
+            <xs:enumeration value="NIM"/>
+            <xs:enumeration value="NIX"/>
+            <xs:enumeration value="NSIS"/>
+            <xs:enumeration value="NUNJUCKS"/>
+            <xs:enumeration value="OBJECTIVEC"/>
+            <xs:enumeration value="OCAML"/>
+            <xs:enumeration value="PARTIQL"/>
+            <xs:enumeration value="PASCAL"/>
+            <xs:enumeration value="PERL"/>
+            <xs:enumeration value="PGSQL"/>
+            <xs:enumeration value="PHP"/>
+            <xs:enumeration value="PHP_LARAVEL_BLADE"/>
+            <xs:enumeration value="PIG"/>
+            <xs:enumeration value="PLAIN_TEXT"/>
+            <xs:enumeration value="PLSQL"/>
+            <xs:enumeration value="POWERSHELL"/>
+            <xs:enumeration value="PRAAT"/>
+            <xs:enumeration value="PRISMA"/>
+            <xs:enumeration value="PROLOG"/>
+            <xs:enumeration value="PROPERTIES"/>
+            <xs:enumeration value="PROTOBUF"/>
+            <xs:enumeration value="PUPPET"/>
+            <xs:enumeration value="PYTHON"/>
+            <xs:enumeration value="QML"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="RAKU"/>
+            <xs:enumeration value="RAZOR"/>
+            <xs:enumeration value="RDOC"/>
+            <xs:enumeration value="RED"/>
+            <xs:enumeration value="REDSHIFT"/>
+            <xs:enumeration value="RHTML"/>
+            <xs:enumeration value="ROBOT"/>
+            <xs:enumeration value="RST"/>
+            <xs:enumeration value="RUBY"/>
+            <xs:enumeration value="RUST"/>
+            <xs:enumeration value="SAC"/>
+            <xs:enumeration value="SASS"/>
+            <xs:enumeration value="SCAD"/>
+            <xs:enumeration value="SCALA"/>
+            <xs:enumeration value="SCHEME"/>
+            <xs:enumeration value="SCRYPT"/>
+            <xs:enumeration value="SCSS"/>
+            <xs:enumeration value="SH"/>
+            <xs:enumeration value="SJS"/>
+            <xs:enumeration value="SLIM"/>
+            <xs:enumeration value="SMARTY"/>
+            <xs:enumeration value="SMITHY"/>
+            <xs:enumeration value="SNIPPETS"/>
+            <xs:enumeration value="SOY_TEMPLATE"/>
+            <xs:enumeration value="SPACE"/>
+            <xs:enumeration value="SPARQL"/>
+            <xs:enumeration value="SQL"/>
+            <xs:enumeration value="SQLSERVER"/>
+            <xs:enumeration value="STYLUS"/>
+            <xs:enumeration value="SVG"/>
+            <xs:enumeration value="SWIFT"/>
+            <xs:enumeration value="TCL"/>
+            <xs:enumeration value="TERRAFORM"/>
+            <xs:enumeration value="TEX"/>
+            <xs:enumeration value="TEXT"/>
+            <xs:enumeration value="TEXTILE"/>
+            <xs:enumeration value="TOML"/>
+            <xs:enumeration value="TSX"/>
+            <xs:enumeration value="TURTLE"/>
+            <xs:enumeration value="TWIG"/>
+            <xs:enumeration value="TYPESCRIPT"/>
+            <xs:enumeration value="VALA"/>
+            <xs:enumeration value="VBSCRIPT"/>
+            <xs:enumeration value="VELOCITY"/>
+            <xs:enumeration value="VERILOG"/>
+            <xs:enumeration value="VHDL"/>
+            <xs:enumeration value="VISUALFORCE"/>
+            <xs:enumeration value="WOLLOK"/>
+            <xs:enumeration value="XML"/>
+            <xs:enumeration value="XQUERY"/>
+            <xs:enumeration value="YAML"/>
+            <xs:enumeration value="ZEEK"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -887,13 +1130,13 @@
                     <xs:enumeration value="entity_lookup"/>
                     <xs:enumeration value="entity_open"/>
                     <xs:enumeration value="entity_openComposition"/>
-                    <xs:enumeration value="create"/>
-                    <xs:enumeration value="edit"/>
-                    <xs:enumeration value="remove"/>
-                    <xs:enumeration value="add"/>
-                    <xs:enumeration value="exclude"/>
-                    <xs:enumeration value="read"/>
-                    <xs:enumeration value="refresh"/>
+                    <xs:enumeration value="list_create"/>
+                    <xs:enumeration value="list_edit"/>
+                    <xs:enumeration value="list_remove"/>
+                    <xs:enumeration value="list_add"/>
+                    <xs:enumeration value="list_exclude"/>
+                    <xs:enumeration value="list_read"/>
+                    <xs:enumeration value="list_refresh"/>
                     <xs:enumeration value="detail_close"/>
                     <xs:enumeration value="detail_save"/>
                     <xs:enumeration value="detail_saveClose"/>
@@ -903,7 +1146,8 @@
                     <xs:enumeration value="lookup_select"/>
                     <xs:enumeration value="view_close"/>
                     <xs:enumeration value="value_clear"/>
-                    <xs:enumeration value="itemTracking"/>
+                    <xs:enumeration value="list_itemTracking"/>
+                    <xs:enumeration value="multi_value_select"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:union>
@@ -1310,6 +1554,13 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="DATE"/>
             <xs:enumeration value="DATETIME"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="groupFilterOperation">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AND"/>
+            <xs:enumeration value="OR"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -1734,6 +1985,7 @@
 
     <xs:attributeGroup name="hasAriaLabel">
         <xs:attribute name="ariaLabel" type="resourceString"/>
+        <xs:attribute name="ariaLabelledBy" type="resourceString"/>
     </xs:attributeGroup>
 
     <xs:attributeGroup name="hasLabel">
@@ -1774,6 +2026,10 @@
         <xs:attribute name="classNames" type="xs:string"/>
     </xs:attributeGroup>
 
+    <xs:attributeGroup name="hasOverlayClass">
+        <xs:attribute name="overlayClass" type="xs:string"/>
+    </xs:attributeGroup>
+
     <xs:attributeGroup name="hasSecurityConstraint">
         <xs:attribute name="constraintEntityOp" type="constraintEntityOp"/>
     </xs:attributeGroup>
@@ -1809,7 +2065,7 @@
         </xs:sequence>
 
         <xs:attribute name="type" type="actionTypeEnum"/>
-        <xs:attribute name="shortcutCombination" type="shortcutCombination"/>
+        <xs:attribute name="shortcutCombination" type="xs:string"/>
         <xs:attribute name="visible" type="xs:boolean"/>
         <xs:attribute name="text" type="resourceString"/>
         <xs:attribute name="description" type="resourceString"/>
@@ -1839,6 +2095,12 @@
     </xs:complexType>
 
     <xs:complexType name="dropdownButtonAction">
+        <xs:complexContent>
+            <xs:extension base="baseAction"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="genericFilterAction">
         <xs:complexContent>
             <xs:extension base="baseAction"/>
         </xs:complexContent>
@@ -1928,6 +2190,7 @@
                 <xs:attributeGroup ref="hasAutocapitalize"/>
                 <xs:attributeGroup ref="hasValueChangeMode"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1965,10 +2228,12 @@
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
                 <xs:attributeGroup ref="hasValidation"/>
                 <xs:attributeGroup ref="hasHelperText"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1998,6 +2263,7 @@
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasTitle"/>
                 <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
                 <xs:attributeGroup ref="hasEnabled"/>
             </xs:extension>
         </xs:complexContent>
@@ -2160,6 +2426,7 @@
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasClassNames"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2269,7 +2536,6 @@
 
                 <xs:attribute name="pageSize" type="xs:integer"/>
                 <xs:attribute name="metaClass" type="xs:string"/>
-                <xs:attribute name="multiSort" type="xs:boolean"/>
                 <xs:attribute name="dropMode" type="gridDropMode"/>
                 <xs:attribute name="rowsDraggable" type="xs:boolean"/>
                 <xs:attribute name="themeNames" type="gridThemeNames"/>
@@ -2280,6 +2546,7 @@
                 <xs:attribute name="detailsVisibleOnClick" type="xs:boolean"/>
                 <xs:attribute name="columnReorderingAllowed" type="xs:boolean"/>
                 <xs:attribute name="nestedNullBehavior" type="gridNestedNullBehaviorEnum"/>
+                <xs:attribute name="columnRendering" type="gridColumnRendering"/>
 
                 <xs:attributeGroup ref="hasSize"/>
                 <xs:attributeGroup ref="hasEnabled"/>
@@ -2471,6 +2738,8 @@
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2501,6 +2770,8 @@
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
                 <xs:attributeGroup ref="hasValidation"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2520,15 +2791,6 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <!-- ComboBoxPicker-->
-    <xs:complexType name="comboBoxPickerComponent">
-        <xs:complexContent>
-            <xs:extension base="baseComboBoxPickerComponent">
-                <xs:attribute name="clearButtonVisible" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2567,6 +2829,8 @@
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2591,6 +2855,8 @@
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2617,6 +2883,8 @@
 
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2658,6 +2926,7 @@
                 <xs:attributeGroup ref="hasHelperText"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
                 <xs:attributeGroup ref="hasDataContainer"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2684,6 +2953,7 @@
                 <xs:attributeGroup ref="hasHelperText"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
                 <xs:attributeGroup ref="hasDataContainer"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2703,6 +2973,7 @@
                 <xs:attributeGroup ref="hasSize"/>
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2722,6 +2993,7 @@
                 <xs:attributeGroup ref="hasSize"/>
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2741,6 +3013,8 @@
                 <xs:attribute name="autoselect" type="xs:boolean"/>
                 <xs:attribute name="clearButtonVisible" type="xs:boolean"/>
                 <xs:attribute name="themeNames" type="textAreaThemeNames"/>
+                <xs:attribute name="maxLength" type="xs:integer"/>
+                <xs:attribute name="minLength" type="xs:integer"/>
 
                 <xs:attributeGroup ref="hasSize"/>
                 <xs:attributeGroup ref="hasLabel"/>
@@ -2757,6 +3031,7 @@
                 <xs:attributeGroup ref="hasValueChangeMode"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
                 <xs:attributeGroup ref="hasDataContainer"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2795,6 +3070,7 @@
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2921,6 +3197,7 @@
         <xs:attributeGroup ref="hasLabel"/>
         <xs:attributeGroup ref="hasEnabled"/>
         <xs:attributeGroup ref="hasClassNames"/>
+        <xs:attributeGroup ref="hasAriaLabel"/>
     </xs:complexType>
 
     <!-- Select-->
@@ -2942,12 +3219,14 @@
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasOverlayClass"/>
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasHelperText"/>
                 <xs:attributeGroup ref="hasValidation"/>
                 <xs:attributeGroup ref="hasPlaceholder"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
                 <xs:attributeGroup ref="hasDataContainer"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -3065,6 +3344,8 @@
     <xs:complexType name="loginErrorMessageType">
         <xs:attribute name="title" type="resourceString"/>
         <xs:attribute name="message" type="resourceString"/>
+        <xs:attribute name="username" type="resourceString"/>
+        <xs:attribute name="password" type="resourceString"/>
     </xs:complexType>
 
     <xs:complexType name="loginAdditionalInformationType">
@@ -3174,6 +3455,40 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- CodeEditor -->
+    <xs:complexType name="codeEditorComponent">
+        <xs:complexContent>
+            <xs:extension base="baseComponent">
+                <xs:sequence>
+                    <xs:element name="tooltip" type="tooltipElement" minOccurs="0"/>
+                    <xs:element name="validators" type="constraintValidatorType"  minOccurs="0" />
+                </xs:sequence>
+
+                <xs:attribute name="highlightActiveLine" type="xs:boolean"/>
+                <xs:attribute name="showGutter" type="xs:boolean"/>
+                <xs:attribute name="showLineNumbers" type="xs:boolean"/>
+                <xs:attribute name="showPrintMargin" type="xs:boolean"/>
+                <xs:attribute name="printMarginColumn" type="xs:integer"/>
+                <xs:attribute name="fontSize" type="xs:string"/>
+
+                <xs:attribute name="mode" type="codeEditorMode"/>
+                <xs:attribute name="theme" type="codeEditorTheme"/>
+
+                <xs:attributeGroup ref="hasClassNames"/>
+                <xs:attributeGroup ref="hasEnabled"/>
+                <xs:attributeGroup ref="hasValidation"/>
+                <xs:attributeGroup ref="hasSize"/>
+                <xs:attributeGroup ref="hasHelperText"/>
+                <xs:attributeGroup ref="hasLabel"/>
+                <xs:attributeGroup ref="hasValueAndElement"/>
+                <xs:attributeGroup ref="hasRequired"/>
+                <xs:attributeGroup ref="hasTabIndex"/>
+                <xs:attributeGroup ref="hasTitle"/>
+                <xs:attributeGroup ref="hasDataContainer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <!--    HTML-->
     <!-- Anchor-->
     <xs:complexType name="anchor">
@@ -3261,6 +3576,15 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- NativeButton-->
+    <xs:complexType name="nativeButtonComponent">
+        <xs:complexContent>
+            <xs:extension base="htmlContainerWithAria">
+                <xs:attributeGroup ref="hasTabIndex"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <!-- Filters -->
 
@@ -3269,8 +3593,29 @@
         <xs:complexContent>
             <xs:extension base="baseComponent">
                 <xs:sequence>
+                    <xs:element name="actions" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:choice maxOccurs="unbounded">
+                                    <xs:element name="action" type="genericFilterAction"/>
+                                </xs:choice>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+
                     <xs:element name="responsiveSteps" type="responsiveStepsType" minOccurs="0"/>
                     <xs:element name="tooltip" type="tooltipElement" minOccurs="0"/>
+
+                    <xs:element name="conditions" minOccurs="0" type="filterConditions"/>
+                    <xs:element name="configurations" minOccurs="0" type="filterConfigurations"/>
+                    <xs:element name="properties" minOccurs="0">
+                        <xs:complexType>
+                            <xs:attribute name="include" type="xs:string" use="required"/>
+                            <xs:attribute name="exclude" type="xs:string"/>
+                            <xs:attribute name="excludeProperties" type="xs:string"/>
+                            <xs:attribute name="excludeRecursively" type="xs:boolean"/>
+                        </xs:complexType>
+                    </xs:element>
                 </xs:sequence>
 
                 <xs:attribute name="dataLoader" type="xs:string" use="required"/>
@@ -3286,16 +3631,42 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <!-- PropertyFilter -->
-    <xs:complexType name="propertyFilterComponent">
+    <xs:complexType name="filterConditions">
+        <xs:sequence>
+            <xs:element name="groupFilter" type="baseGroupFilterComponent" minOccurs="0"/>
+            <xs:element name="propertyFilter" type="basePropertyFilterComponent" minOccurs="0"/>
+            <xs:element name="jpqlFilter" type="baseJpqlFilterComponent" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="filterConfigurations">
+        <xs:sequence>
+            <xs:element name="configuration" type="filterConfiguration"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="filterConfiguration">
+        <xs:sequence>
+            <xs:element name="groupFilter" type="baseGroupFilterComponent" minOccurs="0"/>
+            <xs:element name="propertyFilter" type="basePropertyFilterComponent" minOccurs="0"/>
+            <xs:element name="jpqlFilter" type="baseJpqlFilterComponent" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="resourceString"/>
+        <xs:attribute name="default" type="xs:boolean"/>
+        <xs:attribute name="operation" type="groupFilterOperation"/>
+    </xs:complexType>
+
+    <xs:complexType name="baseSingleFilterComponent">
         <xs:complexContent>
             <xs:extension base="baseComponent">
                 <xs:sequence>
                     <xs:group ref="layoutOrComponent"/>
                     <xs:element name="tooltip" type="tooltipElement" minOccurs="0"/>
                 </xs:sequence>
+                <xs:attribute name="parameterName" type="xs:string"/>
 
-                <xs:attributeGroup ref="hasSize"/>
                 <xs:attributeGroup ref="hasEnabled"/>
                 <xs:attributeGroup ref="hasLabel"/>
                 <xs:attributeGroup ref="hasClassNames"/>
@@ -3304,21 +3675,98 @@
                 <xs:attributeGroup ref="hasRequired"/>
                 <xs:attributeGroup ref="hasValueAndElement"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
-
-                <xs:attribute name="property" type="xs:string" use="required"/>
-                <xs:attribute name="parameterName" type="xs:string"/>
-
-                <xs:attribute name="operation" type="propertyFilterOperation" use="required"/>
-                <xs:attribute name="operationEditable" type="xs:boolean"/>
-                <xs:attribute name="operationTextVisible" type="xs:boolean"/>
+                <xs:attributeGroup ref="hasAriaLabel"/>
 
                 <xs:attribute name="labelVisible" type="xs:boolean"/>
-                <xs:attribute name="labelPosition" type="labelPositionType"/>
-                <xs:attribute name="labelWidth" type="componentSize"/>
 
                 <xs:attribute name="themeNames" type="xs:string"/>
 
                 <xs:attribute name="defaultValue" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- GroupFilter -->
+
+    <xs:complexType name="baseGroupFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="baseComponent">
+                <xs:sequence>
+                    <xs:element name="responsiveSteps" type="responsiveStepsType" minOccurs="0"/>
+
+                    <xs:element name="groupFilter" type="baseGroupFilterComponent" minOccurs="0"/>
+                    <xs:element name="propertyFilter" type="basePropertyFilterComponent" minOccurs="0"/>
+                    <xs:element name="jpqlFilter" type="baseJpqlFilterComponent" minOccurs="0"/>
+                </xs:sequence>
+
+                <xs:attribute name="summaryText" type="resourceString"/>
+                <xs:attribute name="operation" type="groupFilterOperation" use="required"/>
+                <xs:attribute name="operationTextVisible" type="xs:boolean"/>
+
+                <xs:attributeGroup ref="hasEnabled"/>
+                <xs:attributeGroup ref="hasClassNames"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="groupFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="baseGroupFilterComponent">
+                <xs:attribute name="dataLoader" type="xs:string" use="required"/>
+                <xs:attribute name="autoApply" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- JpqlFilter -->
+
+    <xs:complexType name="baseJpqlFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="baseSingleFilterComponent">
+                <xs:sequence>
+                    <xs:element name="condition" type="conditionType" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+
+                <xs:attribute name="parameterClass" type="xs:string" use="required"/>
+                <xs:attribute name="hasInExpression" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="jpqlFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="baseJpqlFilterComponent">
+                <xs:attributeGroup ref="hasSize"/>
+                <xs:attribute name="labelPosition" type="labelPositionType"/>
+                <xs:attribute name="labelWidth" type="componentSize"/>
+
+                <xs:attribute name="dataLoader" type="xs:string" use="required"/>
+                <xs:attribute name="autoApply" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- PropertyFilter -->
+
+    <xs:complexType name="basePropertyFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="baseSingleFilterComponent">
+                <xs:attribute name="property" type="xs:string" use="required"/>
+
+                <xs:attribute name="operation" type="propertyFilterOperation" use="required"/>
+                <xs:attribute name="operationEditable" type="xs:boolean"/>
+                <xs:attribute name="operationTextVisible" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="propertyFilterComponent">
+        <xs:complexContent>
+            <xs:extension base="basePropertyFilterComponent">
+                <xs:attributeGroup ref="hasSize"/>
+
+                <xs:attribute name="labelPosition" type="labelPositionType"/>
+                <xs:attribute name="labelWidth" type="componentSize"/>
 
                 <xs:attribute name="dataLoader" type="xs:string" use="required"/>
                 <xs:attribute name="autoApply" type="xs:boolean"/>
@@ -3333,7 +3781,7 @@
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element name="dataLoadCoordinator" type="dataLoadCoordinatorType" minOccurs="0"/>
-                <xs:element name="queryParameters" type="queryParametersType" minOccurs="0"/>
+                <xs:element name="urlQueryParameters" type="urlQueryParametersType" minOccurs="0"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -3395,34 +3843,35 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- queryParameters -->
+    <!-- urlQueryParameters -->
 
-    <xs:complexType name="queryParametersType">
+    <xs:complexType name="urlQueryParametersType">
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="pagination" type="paginationQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="genericFilter" type="genericFilterQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="propertyFilter" type="propertyFilterQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="pagination" type="paginationUrlQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="genericFilter" type="genericFilterUrlQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="propertyFilter" type="propertyFilterUrlQueryParametersType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:choice>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
 
 
-    <xs:complexType name="paginationQueryParametersType">
+    <xs:complexType name="paginationUrlQueryParametersType">
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="component" type="xs:string" use="required"/>
         <xs:attribute name="firstResultParam" type="xs:string"/>
         <xs:attribute name="maxResultsParam" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="genericFilterQueryParametersType">
+    <xs:complexType name="genericFilterUrlQueryParametersType">
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="component" type="xs:string" use="required"/>
+        <xs:attribute name="configurationParam" type="xs:string"/>
         <xs:attribute name="conditionParam" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="propertyFilterQueryParametersType">
+    <xs:complexType name="propertyFilterUrlQueryParametersType">
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="component" type="xs:string" use="required"/>
         <xs:attribute name="param" type="xs:string"/>
@@ -3450,7 +3899,8 @@
                 <xs:element name="aside" type="baseHtmlContainer"/>
                 <xs:element name="emphasis" type="baseHtmlContainer"/>
                 <xs:element name="anchor" type="anchor"/>
-                <xs:element name="label" type="labelComponent"/>
+                <xs:element name="nativeLabel" type="labelComponent"/>
+                <xs:element name="nativeButton" type="nativeButtonComponent"/>
                 <xs:element name="article" type="baseHtmlContainer"/>
                 <xs:element name="input" type="inputHtmlComponent"/>
                 <xs:element name="image" type="imageComponent"/>
@@ -3497,7 +3947,6 @@
                 <xs:element name="valuePicker" type="valuePickerComponent"/>
                 <xs:element name="multiValuePicker" type="valuePickerComponent"/>
                 <xs:element name="entityPicker" type="entityPickerComponent"/>
-                <xs:element name="comboBoxPicker" type="comboBoxPickerComponent"/>
                 <xs:element name="entityComboBox" type="entityComboBoxComponent"/>
                 <xs:element name="radioButtonGroup" type="radioButtonGroupComponent"/>
                 <xs:element name="checkboxGroup" type="checkboxGroupComponent"/>
@@ -3514,7 +3963,10 @@
                 <xs:element name="fileStorageUploadField" type="fileStorageUploadFieldComponent"/>
                 <xs:element name="upload" type="uploadComponent"/>
                 <xs:element name="propertyFilter" type="propertyFilterComponent"/>
+                <xs:element name="jpqlFilter" type="jpqlFilterComponent"/>
+                <xs:element name="groupFilter" type="groupFilterComponent"/>
                 <xs:element name="genericFilter" type="genericFilterComponent"/>
+                <xs:element name="codeEditor" type="codeEditorComponent"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>
@@ -3561,6 +4013,12 @@
 
         <xs:attributeGroup ref="hasThemable"/>
         <xs:attributeGroup ref="hasFlexible"/>
+    </xs:complexType>
+
+    <xs:complexType name="conditionType">
+        <xs:sequence>
+            <xs:any namespace="##other" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
     </xs:complexType>
 
 </xs:schema>

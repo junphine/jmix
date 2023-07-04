@@ -19,7 +19,6 @@ package io.jmix.flowui.view;
 import com.google.common.base.Strings;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -34,9 +33,9 @@ import io.jmix.core.common.util.Preconditions;
 import io.jmix.core.entity.EntityValues;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
-import io.jmix.flowui.FlowuiViewProperties;
+import io.jmix.flowui.UiViewProperties;
 import io.jmix.flowui.Notifications;
-import io.jmix.flowui.accesscontext.FlowuiEntityContext;
+import io.jmix.flowui.accesscontext.UiEntityContext;
 import io.jmix.flowui.action.list.EditAction;
 import io.jmix.flowui.component.validation.ValidationErrors;
 import io.jmix.flowui.component.validation.group.UiCrossFieldChecks;
@@ -44,12 +43,11 @@ import io.jmix.flowui.exception.GuiDevelopmentException;
 import io.jmix.flowui.model.*;
 import io.jmix.flowui.util.OperationResult;
 import io.jmix.flowui.util.UnknownOperationResult;
-import io.jmix.flowui.util.WebBrowserTools;
 import io.jmix.flowui.view.navigation.RouteSupport;
 import io.jmix.flowui.view.navigation.UrlParamSerializer;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.lang.Nullable;
 
-import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -86,7 +84,6 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
 
     private boolean showSaveNotification = true;
     private boolean saveActionPerformed = false;
-    private boolean preventBrowserTabClosing = true;
 
     /**
      * Create views using {@link io.jmix.flowui.ViewNavigators} or {@link io.jmix.flowui.DialogWindows}.
@@ -96,6 +93,8 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
         addBeforeShowListener(this::onBeforeShow);
         addReadyListener(this::onReady);
         addBeforeCloseListener(this::onBeforeClose);
+
+        setPreventBrowserTabClosing(true);
     }
 
     private void onBeforeShow(BeforeShowEvent event) {
@@ -105,17 +104,6 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
 
     private void onReady(ReadyEvent event) {
         setupModifiedTracking();
-        if (preventBrowserTabClosing) {
-            WebBrowserTools.preventBrowserTabClosing(this);
-        }
-    }
-
-    @Override
-    protected void onDetach(DetachEvent detachEvent) {
-        super.onDetach(detachEvent);
-        if (preventBrowserTabClosing) {
-            WebBrowserTools.allowBrowserTabClosing(this);
-        }
     }
 
     private void onBeforeClose(BeforeCloseEvent event) {
@@ -156,11 +144,16 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
         MessageTools messageTools = getApplicationContext().getBean(MessageTools.class);
         InstanceNameProvider instanceNameProvider = getApplicationContext().getBean(InstanceNameProvider.class);
 
-        MetaClass metaClass = metadata.getClass(getEditedEntity());
+        T editedEntity = getEditedEntity();
+        MetaClass metaClass = metadata.getClass(editedEntity);
+        String entityCaption = messageTools.getEntityCaption(metaClass);
 
-        return messages.formatMessage("", "info.EntitySaved",
-                messageTools.getEntityCaption(metaClass),
-                instanceNameProvider.getInstanceName(getEditedEntity()));
+        if (instanceNameProvider.isInstanceNameDefined(editedEntity.getClass())) {
+            return messages.formatMessage("", "info.EntitySaved", entityCaption,
+                    instanceNameProvider.getInstanceName(editedEntity));
+        } else {
+            return messages.formatMessage("", "info.EntitySaved.short", entityCaption);
+        }
     }
 
     @Override
@@ -322,24 +315,6 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
     }
 
     /**
-     * @return whether this details view prevents browser tab from accidentally closing
-     */
-    public boolean isPreventBrowserTabClosing() {
-        return preventBrowserTabClosing;
-    }
-
-    /**
-     * Sets whether this details view must prevent browser
-     * tab from accidentally closing. Enabled by default.
-     *
-     * @param preventBrowserTabClosing whether this details view must prevent
-     *                                 browser tab from accidentally closing
-     */
-    public void setPreventBrowserTabClosing(boolean preventBrowserTabClosing) {
-        this.preventBrowserTabClosing = preventBrowserTabClosing;
-    }
-
-    /**
      * @return whether to indicate about errors after components validation
      */
     public boolean isShowValidationErrors() {
@@ -396,7 +371,7 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
             UnknownOperationResult result = new UnknownOperationResult();
 
             boolean useSaveConfirmation = getApplicationContext()
-                    .getBean(FlowuiViewProperties.class).isUseSaveConfirmation();
+                    .getBean(UiViewProperties.class).isUseSaveConfirmation();
 
             if (action instanceof NavigateCloseAction) {
                 BeforeLeaveEvent beforeLeaveEvent = ((NavigateCloseAction) action).getBeforeLeaveEvent();
@@ -523,15 +498,12 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
     @Override
     public void setEntityToEdit(T entity) {
         this.entityToEdit = entity;
+        setupEntityToEdit(entity);
     }
 
     protected void setupEntityToEdit() {
         if (serializedEntityIdToEdit != null) {
             setupEntityToEdit(serializedEntityIdToEdit);
-        } else if (entityToEdit != null) {
-            setupEntityToEdit(entityToEdit);
-        } else {
-            throw new IllegalStateException("Nether entity nor entity id to edit is defined");
         }
     }
 
@@ -597,6 +569,12 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
         DataContext dataContext = getViewData().getDataContext();
 
         if (getEntityStates().isNew(entityToEdit) || doNotReloadEditedEntity()) {
+            // In case of DTO, this method is called after
+            // Modified Tracking is enabled, so we need to
+            // remember the original state and revert it after
+            // entity is set.
+            boolean modifiedAfterOpen = isModifiedAfterOpen();
+
             T mergedEntity = dataContext.merge(entityToEdit);
 
             DataContext parentDc = dataContext.getParent();
@@ -606,6 +584,8 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
 
             InstanceContainer<T> container = getEditedEntityContainer();
             container.setItem(mergedEntity);
+
+            setModifiedAfterOpen(modifiedAfterOpen);
         } else {
             getEditedEntityLoader().setEntityId(requireNonNull(EntityValues.getId(entityToEdit)));
         }
@@ -717,7 +697,7 @@ public class StandardDetailView<T> extends StandardView implements DetailView<T>
             AccessManager accessManager = getApplicationContext().getBean(AccessManager.class);
             MetaClass metaClass = getEditedEntityContainer().getEntityMetaClass();
 
-            FlowuiEntityContext entityContext = new FlowuiEntityContext(metaClass);
+            UiEntityContext entityContext = new UiEntityContext(metaClass);
             accessManager.applyRegisteredConstraints(entityContext);
 
             InMemoryCrudEntityContext inMemoryContext = new InMemoryCrudEntityContext(metaClass, getApplicationContext());

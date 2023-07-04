@@ -47,7 +47,7 @@ import io.jmix.datatoolsflowui.action.ShowEntityInfoAction;
 import io.jmix.datatoolsflowui.view.entityinspector.assistant.InspectorDataGridBuilder;
 import io.jmix.datatoolsflowui.view.entityinspector.assistant.InspectorFetchPlanBuilder;
 import io.jmix.flowui.*;
-import io.jmix.flowui.accesscontext.FlowuiEntityContext;
+import io.jmix.flowui.accesscontext.UiEntityContext;
 import io.jmix.flowui.action.DialogAction;
 import io.jmix.flowui.action.list.*;
 import io.jmix.flowui.action.view.LookupSelectAction;
@@ -61,7 +61,7 @@ import io.jmix.flowui.download.Downloader;
 import io.jmix.flowui.kit.action.Action;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.action.ActionVariant;
-import io.jmix.flowui.kit.component.FlowuiComponentUtils;
+import io.jmix.flowui.kit.component.ComponentUtils;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.kit.component.dropdownbutton.DropdownButton;
 import io.jmix.flowui.model.CollectionContainer;
@@ -89,7 +89,7 @@ import static io.jmix.flowui.download.DownloadFormat.ZIP;
 @ViewController("datatl_entityInspectorListView")
 @ViewDescriptor("entity-inspector-list-view.xml")
 @LookupComponent("entitiesDataGrid")
-@DialogMode(width = "50em", height = "37.5em")
+@DialogMode(width = "50em")
 public class EntityInspectorListView extends StandardListView<Object> {
 
     private static final Logger log = LoggerFactory.getLogger(EntityInspectorListView.class);
@@ -134,7 +134,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
     @Autowired
     protected UiComponents uiComponents;
     @Autowired
-    protected FlowuiProperties flowuiProperties;
+    protected UiProperties uiProperties;
     @Autowired
     protected CoreProperties coreProperties;
     @Autowired
@@ -171,7 +171,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
     public void onInit(InitEvent event) {
         showMode.setValue(ShowMode.NON_REMOVED);
         getViewData().setDataContext(dataComponents.createDataContext());
-        FlowuiComponentUtils.setItemsMap(entitiesLookup, getEntitiesLookupFieldOptions());
+        ComponentUtils.setItemsMap(entitiesLookup, getEntitiesLookupFieldOptions());
 
         entitiesLookup.addValueChangeListener(e -> showEntities());
         showMode.addValueChangeListener(e -> showEntities());
@@ -461,39 +461,39 @@ public class EntityInspectorListView extends StandardListView<Object> {
     }
 
     protected LookupSelectAction createLookupSelectAction(DataGrid<Object> dataGrid) {
-        LookupSelectAction lookupSelectAction = actions.create(LookupSelectAction.class);
+        LookupSelectAction lookupSelectAction = actions.create(LookupSelectAction.ID);
         lookupSelectAction.setTarget(this);
         return lookupSelectAction;
     }
 
     protected ExcelExportAction createExcelExportAction(DataGrid<Object> dataGrid) {
-        ExcelExportAction excelExportAction = actions.create(ExcelExportAction.class);
+        ExcelExportAction excelExportAction = actions.create(ExcelExportAction.ID);
         excelExportAction.setTarget(dataGrid);
 
         return excelExportAction;
     }
 
     protected ShowEntityInfoAction createShowEntityInfoAction(DataGrid<Object> dataGrid) {
-        ShowEntityInfoAction showEntityInfoAction = actions.create(ShowEntityInfoAction.class);
+        ShowEntityInfoAction showEntityInfoAction = actions.create(ShowEntityInfoAction.ID);
         showEntityInfoAction.setTarget(dataGrid);
         showEntityInfoAction.addEnabledRule(() -> dataGrid.getSelectedItems().size() == 1);
         return showEntityInfoAction;
     }
 
     protected RefreshAction createRefreshAction(DataGrid<Object> dataGrid) {
-        RefreshAction refreshAction = actions.create(RefreshAction.class);
+        RefreshAction refreshAction = actions.create(RefreshAction.ID);
         refreshAction.setTarget(dataGrid);
         return refreshAction;
     }
 
     protected RemoveAction createRemoveAction(DataGrid<Object> dataGrid) {
-        RemoveAction removeAction = actions.create(RemoveAction.class);
+        RemoveAction removeAction = actions.create(RemoveAction.ID);
         removeAction.setTarget(dataGrid);
         return removeAction;
     }
 
     protected CreateAction createCreateAction(DataGrid<Object> dataGrid) {
-        CreateAction createAction = actions.create(CreateAction.class);
+        CreateAction createAction = actions.create(CreateAction.ID);
         createAction.setOpenMode(OpenMode.NAVIGATION);
         createAction.setTarget(dataGrid);
         createAction.setRouteParametersProvider(() -> {
@@ -513,7 +513,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
     }
 
     protected EditAction createEditAction(DataGrid<Object> dataGrid) {
-        EditAction editAction = actions.create(EditAction.class);
+        EditAction editAction = actions.create(EditAction.ID);
         editAction.setOpenMode(OpenMode.NAVIGATION);
         editAction.setTarget(dataGrid);
 
@@ -541,7 +541,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
 
     protected JmixButton createRestoreButton(DataGrid<Object> dataGrid) {
         JmixButton restoreButton = uiComponents.create(JmixButton.class);
-        ItemTrackingAction restoreAction = actions.create(ItemTrackingAction.class, RESTORE_ACTION_ID);
+        ItemTrackingAction restoreAction = actions.create(ItemTrackingAction.ID, RESTORE_ACTION_ID);
 
         restoreAction.setText(messages.getMessage(EntityInspectorListView.class, "restore"));
         restoreAction.addActionPerformedListener(event -> showRestoreDialog());
@@ -555,7 +555,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
 
     protected JmixButton createWipeOutButton(DataGrid<?> dataGrid) {
         JmixButton wipeOutButton = uiComponents.create(JmixButton.class);
-        ItemTrackingAction wipeOutAction = actions.create(ItemTrackingAction.class, WIPE_OUT_ACTION_ID);
+        ItemTrackingAction wipeOutAction = actions.create(ItemTrackingAction.ID, WIPE_OUT_ACTION_ID);
 
         wipeOutAction.setText(messages.getMessage(EntityInspectorListView.class, "wipeOut"));
         wipeOutAction.addActionPerformedListener(event -> showWipeOutDialog());
@@ -684,7 +684,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
     }
 
     protected boolean readPermitted(MetaClass metaClass) {
-        FlowuiEntityContext entityContext = new FlowuiEntityContext(metaClass);
+        UiEntityContext entityContext = new UiEntityContext(metaClass);
         accessManager.applyRegisteredConstraints(entityContext);
         return entityContext.isViewPermitted();
     }
@@ -837,7 +837,7 @@ public class EntityInspectorListView extends StandardListView<Object> {
                 selected = ((ContainerDataGridItems<Object>) dataGrid.getItems()).getContainer().getItems();
             }
 
-            int saveExportedByteArrayDataThresholdBytes = flowuiProperties.getSaveExportedByteArrayDataThresholdBytes();
+            int saveExportedByteArrayDataThresholdBytes = uiProperties.getSaveExportedByteArrayDataThresholdBytes();
             String tempDir = coreProperties.getTempDir();
 
             try {

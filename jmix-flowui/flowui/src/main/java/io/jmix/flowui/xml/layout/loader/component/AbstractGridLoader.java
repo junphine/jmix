@@ -18,6 +18,7 @@ package io.jmix.flowui.xml.layout.loader.component;
 
 import com.google.common.base.Splitter;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.ColumnRendering;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -51,7 +52,7 @@ import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.dom4j.datatype.DatatypeElementFactory;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -71,7 +72,6 @@ public abstract class AbstractGridLoader<T extends Grid & EnhancedDataGrid & Has
     @Override
     public void loadComponent() {
         loadInteger(element, "pageSize", resultComponent::setPageSize);
-        loadBoolean(element, "multiSort", resultComponent::setMultiSort);
         loadBoolean(element, "rowsDraggable", resultComponent::setRowsDraggable);
         loadBoolean(element, "allRowsVisible", resultComponent::setAllRowsVisible);
         loadEnum(element, GridDropMode.class, "dropMode", resultComponent::setDropMode);
@@ -81,6 +81,7 @@ public abstract class AbstractGridLoader<T extends Grid & EnhancedDataGrid & Has
         loadEnum(element, NestedNullBehavior.class, "nestedNullBehavior", resultComponent::setNestedNullBehavior);
         loadBoolean(element, "editorBuffered", editorBuffered ->
                 resultComponent.getEditor().setBuffered(editorBuffered));
+        loadEnum(element, ColumnRendering.class, "columnRendering", resultComponent::setColumnRendering);
 
         componentLoader().loadEnabled(resultComponent, element);
         componentLoader().loadThemeNames(resultComponent, element);
@@ -292,8 +293,7 @@ public abstract class AbstractGridLoader<T extends Grid & EnhancedDataGrid & Has
                     context, "Component ID", component.getId());
         }
 
-        String key = loadString(element, "key")
-                .orElseGet(() -> metaPropertyPath.getMetaProperty().getName());
+        String key = loadString(element, "key").orElse(property);
 
         Column column = addColumn(key, metaPropertyPath);
         loadString(element, "width", column::setWidth);

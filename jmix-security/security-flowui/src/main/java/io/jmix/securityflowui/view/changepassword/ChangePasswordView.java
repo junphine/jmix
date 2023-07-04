@@ -42,12 +42,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import jakarta.annotation.Nullable;
+import org.springframework.lang.Nullable;
 import java.util.Objects;
 
 @ViewController("changePasswordView")
 @ViewDescriptor("change-password-view.xml")
-@DialogMode(width = "AUTO", height = "AUTO")
 public class ChangePasswordView extends StandardView {
 
     @ViewComponent

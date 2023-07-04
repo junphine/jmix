@@ -25,6 +25,7 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.shared.HasTooltip;
+import com.vaadin.flow.component.shared.SlotUtils;
 import com.vaadin.flow.component.upload.*;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.dom.Element;
@@ -43,7 +44,7 @@ import java.util.List;
 @JsModule("./src/uploadfield/jmix-upload-field.js")
 public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadField<C, V>, V>
         extends AbstractField<C, V>
-        implements HasLabel, HasHelper, HasSize, HasStyle, HasTooltip {
+        implements HasLabel, HasHelper, HasSize, HasStyle, HasTooltip, HasTheme {
 
     protected static final String INPUT_CONTAINER_CLASS_NAME = "jmix-upload-field-input-container";
     protected static final String FILE_NAME_COMPONENT_CLASS_NAME = "jmix-upload-field-file-name";
@@ -54,7 +55,8 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
     protected static final String UPLOAD = "Upload";
     protected static final String CLEAR_COMPONENT_ARIA_LABEL = "Remove file";
 
-    protected static final String NO_MARGIN_THEME = "jmix-upload-field-no-margin";
+    protected static final String NO_FILE_NAME_THEME = "no-file-name";
+    protected static final String FULL_WIDTH_THEME = "full-width";
 
     protected JmixUploadButton uploadButton;
     protected HasComponents content;
@@ -104,7 +106,6 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
 
     protected void initFileNameComponent(Component fileNameComponent) {
         addClassNames(fileNameComponent, FILE_NAME_COMPONENT_CLASS_NAME, FILE_NAME_COMPONENT_EMPTY_CLASS_NAME);
-        addThemeNames(fileNameComponent, NO_MARGIN_THEME);
 
         if (fileNameComponent instanceof HasText) {
             String fileName = Strings.nullToEmpty(generateFileName());
@@ -138,9 +139,7 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
 
     protected void attachContent(HasComponents content) {
         content.add(uploadButton, fileNameComponent);
-
-        content.getElement().setAttribute("slot", "input");
-        getElement().appendChild(content.getElement());
+        SlotUtils.addToSlot(this, "input", content.getElement());
     }
 
     protected void initUploadComponent(JmixUploadButton upload) {
@@ -157,7 +156,6 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
 
     protected void initUploadButtonComponent(Component component) {
         setComponentText(component, UPLOAD);
-        addThemeNames(component, NO_MARGIN_THEME);
     }
 
     protected void attachUploadEvents(JmixUploadButton upload) {
@@ -425,17 +423,14 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
     }
 
     /**
-     * Sets the text that should be shown in the upload button. {@code null} value resets the default value.
+     * Sets the text that should be shown in the upload button.
      *
      * @param uploadText text to set
      */
     public void setUploadText(@Nullable String uploadText) {
         this.uploadText = uploadText;
 
-        setComponentText(uploadButton.getUploadButton(),
-                Strings.isNullOrEmpty(uploadText)
-                        ? getDefaultUploadText()
-                        : uploadText);
+        setComponentText(uploadButton.getUploadButton(), uploadText);
     }
 
     /**
@@ -447,7 +442,7 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
     }
 
     /**
-     * Sets text that is shown when file is not uploaded
+     * Sets text that is shown when file is not uploaded.
      *
      * @param fileNotSelectedText text to set
      */
@@ -592,6 +587,12 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
         }
     }
 
+    protected void removeThemeNames(Component component, String... themeNames) {
+        if (component instanceof HasTheme) {
+            ((HasTheme) component).removeThemeNames(themeNames);
+        }
+    }
+
     protected void removeClassNames(HasElement component, String... classNames) {
         if (component instanceof HasStyle) {
             ((HasStyle) component).removeClassNames(classNames);
@@ -628,5 +629,12 @@ public abstract class AbstractSingleUploadField<C extends AbstractSingleUploadFi
         uploadButton.setVisible(!isReadOnly());
         fileNameComponent.setVisible(fileNameVisible);
         clearComponent.setVisible(clearButtonVisible && !isReadOnly() && fileNameVisible);
+
+        removeThemeName(NO_FILE_NAME_THEME);
+        removeThemeNames(uploadButton.getUploadButton(), FULL_WIDTH_THEME);
+        if (!fileNameVisible) {
+            addThemeName(NO_FILE_NAME_THEME);
+            addThemeNames(uploadButton.getUploadButton(), FULL_WIDTH_THEME);
+        }
     }
 }

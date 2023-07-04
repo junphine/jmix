@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -55,25 +57,40 @@ public class TaskUpdateVite implements FallibleCommand, Serializable {
     }
 
     private void createConfig() throws IOException {
-        // Only create it if it does not exist
         File configFile = new File(options.getStudioFolder(),
                 FrontendUtils.VITE_CONFIG);
-        if (configFile.exists()) {
-            return;
-        }
 
         try (InputStream resource = FrontendUtils.getResourceAsStream(FrontendUtils.VITE_CONFIG)) {
             String template = IOUtils.toString(resource, StandardCharsets.UTF_8);
-
-            if (configFile.exists()
-                    && template.hashCode() == IOUtils.toString(
-                    configFile.toURI(), StandardCharsets.UTF_8).hashCode()
-            ) {
-                return;
+            int freePort;
+            try {
+                freePort = FrontendUtils.findFreePort(60_000, 65_000);
+            } catch (Exception e) {
+                freePort = new Random().nextInt(60_000, 65_000);
             }
 
-            FileUtils.write(configFile, template, StandardCharsets.UTF_8);
-            log().debug("Created vite configuration file: '{}'", configFile);
+            template = template.replace("60001", String.valueOf(freePort));
+
+            if (!configFile.exists()) {
+                configFile.createNewFile();
+                FileUtils.write(configFile, template, StandardCharsets.UTF_8);
+                String message = String.format("Created vite configuration file: '%s'", configFile);
+                log().debug(message);
+                FrontendUtils.logInFile(message);
+            } else {
+                List<String> viteConfigLines = FileUtils.readLines(configFile, StandardCharsets.UTF_8);
+                final String hmrPortConstDeclaration = "let hmrPort = " + freePort + ";";
+                for (String line : viteConfigLines) {
+                    if (line.trim().contains("let hmrPort")) {
+                        viteConfigLines.set(
+                                viteConfigLines.indexOf(line),
+                                hmrPortConstDeclaration
+                        );
+                    }
+                }
+                FileUtils.writeLines(configFile, viteConfigLines);
+                FrontendUtils.logInFile(String.format("Vite configuration '%s' has been updated", configFile));
+            }
         }
     }
 
