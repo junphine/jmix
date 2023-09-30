@@ -31,11 +31,12 @@
         <dataGrid id="roleModelsTable"
                   dataContainer="roleModelsDc"
                   selectionMode="MULTI"
+                  columnReorderingAllowed="true"
                   minHeight="20em"
                   width="100%">
-            <columns>
-                <column property="name"/>
-                <column property="code"/>
+            <columns resizable="true">
+                <column property="name" resizable="true"/>
+                <column property="code" resizable="true"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

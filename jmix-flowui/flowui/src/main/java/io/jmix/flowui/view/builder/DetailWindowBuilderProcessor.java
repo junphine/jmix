@@ -35,13 +35,14 @@ import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.model.Nested;
+import io.jmix.flowui.sys.UiAccessChecker;
 import io.jmix.flowui.view.*;
 import io.jmix.flowui.view.DialogWindow.AfterCloseEvent;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import org.springframework.lang.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -63,8 +64,9 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
                                         Metadata metadata,
                                         ExtendedEntities extendedEntities,
                                         UiViewProperties viewProperties,
+                                        UiAccessChecker uiAccessChecker,
                                         @Nullable List<EditedEntityTransformer> editedEntityTransformers) {
-        super(applicationContext, views, viewRegistry);
+        super(applicationContext, views, viewRegistry, uiAccessChecker);
 
         this.metadata = metadata;
         this.extendedEntities = extendedEntities;
@@ -74,21 +76,23 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
 
     @SuppressWarnings("unchecked")
     public <E, V extends View<?>> DialogWindow<V> build(DetailWindowBuilder<E, V> builder) {
+        V view = createView(builder);
 
         CollectionContainer<E> container = findContainer(builder);
 
         E entity = initEntity(builder, container);
 
-        V view = createView(builder);
+        // Setup parent context before setting entity,
+        // because 'setEntityToEdit' immediately processing entity
+        DataContext parentDataContext = setupParentDataContext(builder, view, container);
+
         ((DetailView<E>) view).setEntityToEdit(entity);
 
         DialogWindow<V> dialog = createDialog(view);
         initDialog(builder, dialog);
 
-        DataContext parentDataContext = setupParentDataContext(builder, view, container);
-
         setupListDataComponent(builder, ((DetailView<E>) view), dialog, container, parentDataContext);
-        setupField(builder, view, dialog, parentDataContext);
+        setupField(builder, view, dialog);
 
         return dialog;
     }
@@ -138,12 +142,10 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
 
     @SuppressWarnings("unchecked")
     protected <E, V extends View<?>> void setupField(DetailWindowBuilder<E, V> builder,
-                                                     V view, DialogWindow<V> dialog,
-                                                     @Nullable DataContext parentDataContext) {
-        builder.getField().ifPresent(field -> {
-            setupViewDataContext(field, builder.getOrigin(), view, parentDataContext);
-            dialog.addAfterCloseListener(createAfterCloseListener(field, builder, (DetailView<E>) view));
-        });
+                                                     V view, DialogWindow<V> dialog) {
+        builder.getField().ifPresent(field ->
+                dialog.addAfterCloseListener(createAfterCloseListener(field, builder, (DetailView<E>) view))
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -180,10 +182,10 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
         };
     }
 
-    protected <E, V extends View<?>> void setupViewDataContext(HasValue<?, E> field,
-                                                               View<?> origin, V view,
-                                                               @Nullable DataContext parentDataContext) {
-        if (parentDataContext == null && field instanceof SupportsValueSource) {
+    @Nullable
+    protected <E, V extends View<?>> DataContext setupViewDataContext(@Nullable HasValue<?, E> field,
+                                                                      View<?> origin, V view) {
+        if (field instanceof SupportsValueSource) {
             ValueSource<?> valueSource = ((SupportsValueSource<?>) field).getValueSource();
             if (valueSource instanceof EntityValueSource) {
                 if (isCompositionProperty((EntityValueSource<?, ?>) valueSource)) {
@@ -192,9 +194,12 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
                     checkDataContext(view, dataContext);
                     //noinspection ConstantConditions
                     dataContext.setParent(originDataContext);
+                    return dataContext;
                 }
             }
         }
+
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -229,6 +234,10 @@ public class DetailWindowBuilderProcessor extends AbstractWindowBuilderProcessor
             checkDataContext(view, childContext);
             //noinspection ConstantConditions
             childContext.setParent(dataContext);
+        } else {
+            dataContext = builder.getField()
+                    .map(field -> setupViewDataContext(field, builder.getOrigin(), view))
+                    .orElse(null);
         }
 
         return dataContext;

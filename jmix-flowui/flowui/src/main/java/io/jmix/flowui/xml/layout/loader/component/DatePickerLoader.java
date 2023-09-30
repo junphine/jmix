@@ -17,12 +17,23 @@
 package io.jmix.flowui.xml.layout.loader.component;
 
 import io.jmix.flowui.component.datepicker.TypedDatePicker;
+import io.jmix.flowui.exception.GuiDevelopmentException;
 import io.jmix.flowui.xml.layout.loader.AbstractComponentLoader;
 import io.jmix.flowui.xml.layout.support.DataLoaderSupport;
+import io.jmix.flowui.xml.layout.support.PrefixSuffixLoaderSupport;
+import org.dom4j.Element;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
 
 public class DatePickerLoader extends AbstractComponentLoader<TypedDatePicker<?>> {
 
+    protected static final String DATE_PATTERN = "yyyy-MM-dd";
+
     protected DataLoaderSupport dataLoaderSupport;
+    protected PrefixSuffixLoaderSupport prefixSuffixLoaderSupport;
 
     @Override
     protected TypedDatePicker<?> createComponent() {
@@ -30,9 +41,17 @@ public class DatePickerLoader extends AbstractComponentLoader<TypedDatePicker<?>
     }
 
     @Override
+    public void initComponent() {
+        super.initComponent();
+
+        getPrefixSuffixLoaderSupport().createPrefixSuffixComponents(resultComponent, element);
+    }
+
+    @Override
     public void loadComponent() {
         getDataLoaderSupport().loadData(resultComponent, element);
         componentLoader().loadDatatype(resultComponent, element);
+        getPrefixSuffixLoaderSupport().loadPrefixSuffixComponents();
 
         loadResourceString(element, "name", context.getMessageGroup(), resultComponent::setName);
         loadBoolean(element, "opened", resultComponent::setOpened);
@@ -40,7 +59,10 @@ public class DatePickerLoader extends AbstractComponentLoader<TypedDatePicker<?>
         loadResourceString(element, "placeholder", context.getMessageGroup(), resultComponent::setPlaceholder);
         loadBoolean(element, "weekNumbersVisible", resultComponent::setWeekNumbersVisible);
         loadBoolean(element, "clearButtonVisible", resultComponent::setClearButtonVisible);
+        loadDate(element, "max", resultComponent::setMax);
+        loadDate(element, "min", resultComponent::setMin);
 
+        componentLoader().loadDatePickerI18n(element, resultComponent::setI18n);
         componentLoader().loadLabel(resultComponent, element);
         componentLoader().loadEnabled(resultComponent, element);
         componentLoader().loadTooltip(resultComponent, element);
@@ -57,10 +79,37 @@ public class DatePickerLoader extends AbstractComponentLoader<TypedDatePicker<?>
         componentLoader().loadAriaLabel(resultComponent, element);
     }
 
+    protected void loadDate(Element element, String attributeName, Consumer<LocalDate> setter) {
+        loadString(element, attributeName)
+                .ifPresent(dateString -> {
+                    try {
+                        LocalDate localDate = parseDate(dateString);
+                        setter.accept(localDate);
+                    } catch (ParseException e) {
+                        String errorMessage = String.format("Unparseable date for %s with '%s' id",
+                                resultComponent.getClass().getSimpleName(),
+                                resultComponent.getId().orElse("null"));
+                        throw new GuiDevelopmentException(errorMessage, context);
+                    }
+                });
+    }
+
+    protected LocalDate parseDate(String date) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        return LocalDate.parse(date, formatter);
+    }
+
     protected DataLoaderSupport getDataLoaderSupport() {
         if (dataLoaderSupport == null) {
             dataLoaderSupport = applicationContext.getBean(DataLoaderSupport.class, context);
         }
         return dataLoaderSupport;
+    }
+
+    protected PrefixSuffixLoaderSupport getPrefixSuffixLoaderSupport() {
+        if (prefixSuffixLoaderSupport == null) {
+            prefixSuffixLoaderSupport = applicationContext.getBean(PrefixSuffixLoaderSupport.class, context);
+        }
+        return prefixSuffixLoaderSupport;
     }
 }

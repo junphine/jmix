@@ -18,6 +18,7 @@ package io.jmix.flowui.xml.layout.support;
 
 import com.google.common.base.Strings;
 import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.BoxSizing;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -29,13 +30,11 @@ import com.vaadin.flow.component.shared.Tooltip;
 import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.data.value.HasValueChangeMode;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import io.jmix.core.Metadata;
 import io.jmix.core.common.util.ReflectionHelper;
 import io.jmix.core.impl.DatatypeRegistryImpl;
 import io.jmix.core.metamodel.datatype.Datatype;
-import io.jmix.flowui.component.HasRequired;
-import io.jmix.flowui.component.SupportsDatatype;
-import io.jmix.flowui.component.SupportsResponsiveSteps;
-import io.jmix.flowui.component.SupportsValidation;
+import io.jmix.flowui.component.*;
 import io.jmix.flowui.component.formatter.FormatterLoadFactory;
 import io.jmix.flowui.component.validation.Validator;
 import io.jmix.flowui.component.validation.ValidatorLoadFactory;
@@ -53,11 +52,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import org.springframework.lang.Nullable;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -260,11 +261,9 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
 
     public void loadValueAndElementAttributes(HasValueAndElement<?, ?> component, Element element) {
         loaderSupport.loadBoolean(element, "readOnly", component::setReadOnly);
-        loaderSupport.loadBoolean(element, "requiredIndicatorVisible", component::setRequiredIndicatorVisible);
     }
 
     public void loadValidationAttributes(HasValidation component, Element element, Context context) {
-        loaderSupport.loadBoolean(element, "invalid", component::setInvalid);
         loaderSupport.loadResourceString(element, "errorMessage", context.getMessageGroup(),
                 component::setErrorMessage);
 
@@ -360,6 +359,51 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
                 context.getMessageGroup(), component::setAllowedCharPattern);
     }
 
+    public Optional<Duration> loadDuration(Element element, String attributeName) {
+        return loaderSupport.loadString(element, attributeName)
+                .map(stepString -> {
+                    Duration step;
+
+                    if (stepString.endsWith("h")) {
+                        step = Duration.ofHours(Long.parseLong(StringUtils.chop(stepString)));
+                    } else if (stepString.endsWith("m")) {
+                        step = Duration.ofMinutes(Long.parseLong(StringUtils.chop(stepString)));
+                    } else if (stepString.endsWith("s")) {
+                        step = Duration.ofSeconds(Long.parseLong(StringUtils.chop(stepString)));
+                    } else {
+                        step = Duration.ofMinutes(Long.parseLong(StringUtils.chop(stepString)));
+                    }
+
+                    return step;
+                });
+    }
+
+    /**
+     * @deprecated use {@link ComponentLoaderSupport#loadDateFormat(DatePicker.DatePickerI18n, Element)} instead.
+     */
+    @Deprecated
+    public void loadDateFormat(Element element, Consumer<DatePicker.DatePickerI18n> setter) {
+        loaderSupport.loadResourceString(element, "dateFormat", context.getMessageGroup())
+                .ifPresent(dateFormatString -> {
+                    List<String> dateFormatList = split(dateFormatString);
+
+                    DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
+
+                    if (dateFormatList.size() == 1) {
+                        datePickerI18n.setDateFormat(dateFormatList.get(0));
+                    } else {
+                        datePickerI18n.setDateFormats(
+                                dateFormatList.get(0),
+                                dateFormatList.stream()
+                                        .skip(1)
+                                        .toArray(String[]::new)
+                        );
+                    }
+
+                    setter.accept(datePickerI18n);
+                });
+    }
+
     public Optional<Icon> loadIcon(Element element) {
         return loaderSupport.loadString(element, "icon")
                 .map(ComponentUtils::parseIcon);
@@ -371,7 +415,11 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
     }
 
     public Optional<String> loadShortcutCombination(Element element) {
-        return loaderSupport.loadString(element, "shortcutCombination")
+        return loadShortcut(element,"shortcutCombination");
+    }
+
+    public Optional<String> loadShortcut(Element element, String attributeName) {
+        return loaderSupport.loadString(element, attributeName)
                 .map(shortcutCombination -> {
                     if (shortcutCombination.startsWith("${") && shortcutCombination.endsWith("}")) {
                         if (isShortcutCombinationFQN(shortcutCombination)) {
@@ -393,6 +441,49 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
 
                     return shortcutCombination;
                 });
+    }
+
+    public void loadMetaClass(SupportsMetaClass component, Element element) {
+        loaderSupport.loadString(element, "metaClass")
+                .ifPresent(metaClass ->
+                        component.setMetaClass(applicationContext.getBean(Metadata.class).getClass(metaClass)));
+    }
+
+    public void loadDatePickerI18n(Element element, Consumer<DatePicker.DatePickerI18n> setter) {
+        DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
+
+        loadFirstDayOfWeek(datePickerI18n, element);
+        loadDateFormat(datePickerI18n, element);
+
+        setter.accept(datePickerI18n);
+    }
+
+    protected void loadDateFormat(DatePicker.DatePickerI18n datePickerI18n, Element element) {
+        loaderSupport.loadResourceString(element, "dateFormat", context.getMessageGroup())
+                .ifPresent(dateFormatString -> {
+                    List<String> dateFormatList = split(dateFormatString);
+
+                    if (dateFormatList.size() == 1) {
+                        datePickerI18n.setDateFormat(dateFormatList.get(0));
+                    } else {
+                        datePickerI18n.setDateFormats(
+                                dateFormatList.get(0),
+                                dateFormatList.stream()
+                                        .skip(1)
+                                        .toArray(String[]::new)
+                        );
+                    }
+                });
+    }
+
+    protected void loadFirstDayOfWeek(DatePicker.DatePickerI18n datePickerI18n, Element element) {
+        loaderSupport.loadBoolean(element, "weekNumbersVisible", weekNumbersVisible -> {
+            if (weekNumbersVisible) {
+                // According to the Vaadin documentation: weeksNumbersVisible works only when
+                // the first day of the week is set to Monday (1)
+                datePickerI18n.setFirstDayOfWeek(1);
+            }
+        });
     }
 
     protected boolean isShortcutCombinationFQN(String shortcutCombination) {
@@ -481,12 +572,13 @@ public class ComponentLoaderSupport implements ApplicationContextAware {
     }
 
     protected void split(String names, Consumer<String> setter) {
-        String[] values = names.split("[\\s,]+");
-        for (String value : values) {
-            if (!Strings.isNullOrEmpty(value)) {
-                setter.accept(value);
-            }
-        }
+        split(names).forEach(setter);
+    }
+
+    protected List<String> split(String names) {
+        return Arrays.stream(names.split("[\\s,]+"))
+                .filter(split -> !Strings.isNullOrEmpty(split))
+                .toList();
     }
 
     protected Optional<Formatter<?>> loadFormatter(Element element) {
