@@ -7,7 +7,8 @@ dependencies {
 
     implementation 'org.springframework:spring-messaging'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    compileOnly 'com.hazelcast:hazelcast'
+    compileOnly 'org.apache.ignite:ignite-core'
+    compileOnly 'org.apache.ignite:ignite-spring-boot-autoconfigure-ext'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.hsqldb:hsqldb'

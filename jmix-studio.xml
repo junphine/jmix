@@ -15,6 +15,266 @@
           </option>
         </ModuleSettings>
       </entry>
+      <entry key="jmix.appsettings.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.audit.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.core.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.dashboards.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.data.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.datatools-flowui.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.dynattr.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.email.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.emailtemplates.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.flowui-data.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.flowui.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.imap.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.multitenancy-flowui.test">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.multitenancy.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.quartz.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.reports.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.search.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.security-data.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix.security-flowui.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="library.main">
+        <ModuleSettings>
+          <option name="dataStoreOptionsV2">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettingsV2 />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
       <entry key="onboarding.main">
         <ModuleSettings>
           <option name="dataStoreOptionsV2">
