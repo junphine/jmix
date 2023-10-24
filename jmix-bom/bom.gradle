@@ -67,7 +67,7 @@ javaPlatform {
 }
 
 dependencies {
-    api platform("org.springframework.boot:spring-boot-dependencies:3.1.0")
+    api platform("org.springframework.boot:spring-boot-dependencies:3.1.4")
     api platform('software.amazon.awssdk:bom:2.16.69')
 
     def freeVersion = version
@@ -138,6 +138,9 @@ dependencies {
 
         api "io.jmix.dynattr:jmix-dynattr:$freeVersion"
         api "io.jmix.dynattr:jmix-dynattr-starter:$freeVersion"
+        api "io.jmix.dynattr:jmix-dynattr-flowui:$freeVersion"
+        api "io.jmix.dynattr:jmix-dynattr-flowui-kit:$freeVersion"
+        api "io.jmix.dynattr:jmix-dynattr-flowui-starter:$freeVersion"
 
         api "io.jmix.email:jmix-email:$freeVersion"
         api "io.jmix.email:jmix-email-flowui:$freeVersion"
@@ -169,6 +172,9 @@ dependencies {
 
         api "io.jmix.maps:jmix-maps:$premiumVersion"
         api "io.jmix.maps:jmix-maps-starter:$premiumVersion"
+        api "io.jmix.maps:jmix-maps-flowui:$premiumVersion"
+        api "io.jmix.maps:jmix-maps-flowui-kit:$premiumVersion"
+        api "io.jmix.maps:jmix-maps-flowui-starter:$premiumVersion"
 
         api "io.jmix.multitenancy:jmix-multitenancy:$freeVersion"
         api "io.jmix.multitenancy:jmix-multitenancy-flowui:$freeVersion"
@@ -178,6 +184,7 @@ dependencies {
         api "io.jmix.notifications:jmix-notifications:$premiumVersion"
         api "io.jmix.notifications:jmix-notifications-starter:$premiumVersion"
         api "io.jmix.notifications:jmix-notifications-flowui:$premiumVersion"
+        api "io.jmix.notifications:jmix-notifications-flowui-kit:$premiumVersion"
         api "io.jmix.notifications:jmix-notifications-flowui-starter:$premiumVersion"
 
         api "io.jmix.oidc:jmix-oidc:$freeVersion"
@@ -195,12 +202,18 @@ dependencies {
         api "io.jmix.reports:jmix-reports-flowui:$freeVersion"
         api "io.jmix.reports:jmix-reports-flowui-starter:$freeVersion"
 
+        api "io.jmix.jmxconsole:jmix-jmxconsole:$freeVersion"
+        api "io.jmix.jmxconsole:jmix-jmxconsole-starter:$freeVersion"
+
         api "io.jmix.rest:jmix-rest:$freeVersion"
         api "io.jmix.rest:jmix-rest-starter:$freeVersion"
 
         api "io.jmix.search:jmix-search:$freeVersion"
         api "io.jmix.search:jmix-search-starter:$freeVersion"
         api "io.jmix.search:jmix-search-aws-starter:$freeVersion"
+        api "io.jmix.search:jmix-search-flowui:$freeVersion"
+        api "io.jmix.search:jmix-search-flowui-kit:$freeVersion"
+        api "io.jmix.search:jmix-search-flowui-starter:$freeVersion"
 
         api "io.jmix.security:jmix-security:$freeVersion"
         api "io.jmix.security:jmix-security-flowui:$freeVersion"
@@ -225,13 +238,16 @@ dependencies {
         api "io.jmix.translations:jmix-translations-it:$freeVersion"
         api "io.jmix.translations:jmix-translations-ar:$freeVersion"
         api "io.jmix.translations:jmix-translations-tr:$freeVersion"
+        api "io.jmix.translations:jmix-translations-es:$freeVersion"
 
         api "io.jmix.webdav:jmix-webdav:$premiumVersion"
         api "io.jmix.webdav:jmix-webdav-rest:$premiumVersion"
         api "io.jmix.webdav:jmix-webdav-starter:$premiumVersion"
         api "io.jmix.webdav:jmix-webdav-rest-starter:$premiumVersion"
+        api "io.jmix.webdav:jmix-webdav-flowui:$premiumVersion"
+        api "io.jmix.webdav:jmix-webdav-flowui-starter:$premiumVersion"
 
-        api 'com.google.guava:guava:31.1-jre'
+        api 'com.google.guava:guava:32.1.2-jre'
         api 'commons-io:commons-io:2.11.0'
 //        api 'javax.annotation:javax.annotation-api:1.3.2'
 //        api 'javax.inject:javax.inject:1'
@@ -242,6 +258,8 @@ dependencies {
         api 'org.dom4j:dom4j:2.1.4'
 
 //        api 'org.eclipse.persistence:jakarta.persistence:2.2.3'
+
+        api 'org.liquibase:liquibase-core:4.24.0'
 
         def eclipselinkOriginalVersion = '4.0.1'
         def eclipselinkVersion = '4.0.1-15-jmix'
@@ -344,8 +362,7 @@ dependencies {
 
         api 'org.apache.tika:tika-parsers:1.27'
 
-        //todo SB3 Update flowable 7.0 to production version
-        def flowableVersion = '7.0.0.M1'
+        def flowableVersion = '7.0.0'
         api "org.flowable:flowable-spring-configurator:$flowableVersion"
         api "org.flowable:flowable-spring-boot-starter-process:$flowableVersion"
         api "org.flowable:flowable-spring-boot-starter-dmn:$flowableVersion"

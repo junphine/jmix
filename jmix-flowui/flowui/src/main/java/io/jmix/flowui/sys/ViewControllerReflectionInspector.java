@@ -23,6 +23,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HasValue;
@@ -30,6 +31,7 @@ import com.vaadin.flow.shared.Registration;
 import io.jmix.core.common.event.Subscription;
 import io.jmix.flowui.view.*;
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -68,6 +70,12 @@ public class ViewControllerReflectionInspector {
             CacheBuilder.newBuilder()
                     .weakKeys()
                     .build();
+
+    protected final Map<Class<?>, String> argumentTypeToDefaultMethodMap = Map.of(
+            ClickEvent.class, "addClickListener"
+    );
+
+    protected final Map<Class, Collection<MethodHandle>> argumentTypesToClashedMethodsMap = new HashMap<>();
 
     protected final Function<Class, MethodHandles.Lookup> lambdaLookupProvider;
 
@@ -131,15 +139,33 @@ public class ViewControllerReflectionInspector {
     }
 
     @Nullable
+    public MethodHandle getAddListenerMethod(Class<?> clazz, Class<?> eventType, String methodName) {
+        // Trying to find cached method first
+        MethodHandle cachedMethod = getAddListenerMethod(clazz, eventType);
+        if (methodName.isEmpty() || cachedMethod != null && isMethodHandleHasName(cachedMethod, methodName)) {
+            return cachedMethod;
+        }
+
+        Map<Class, Collection<MethodHandle>> methods = targetIntrospectionCache.getUnchecked(clazz)
+                .getClashedAddListenerMethods();
+
+        return methods.get(eventType).stream()
+                .filter(methodCandidate -> isMethodHandleHasName(methodCandidate, methodName))
+                .findAny()
+                .orElse(null);
+    }
+
+    @Nullable
     public MethodHandle getInstallTargetMethod(Class<?> clazz, String methodName) {
         Map<String, MethodHandle> methods = targetIntrospectionCache.getUnchecked(clazz).getInstallTargetMethods();
         return methods.get(methodName);
     }
 
     @Nullable
-    public MethodHandle getSupplyTargetMethod(Class<?> clazz, String methodName) {
-        Map<String, MethodHandle> methods = targetIntrospectionCache.getUnchecked(clazz).getSupplyTargetMethods();
-        return methods.get(methodName);
+    public MethodHandle getSupplyTargetMethod(Class<?> clazz, String methodName, Class<?> parameterType) {
+        Map<MethodSignature, MethodHandle> methods =
+                targetIntrospectionCache.getUnchecked(clazz).getSupplyTargetMethods();
+        return methods.get(new MethodSignature(methodName, List.of(parameterType)));
     }
 
     public MethodHandle getConsumerMethodFactory(Class<?> ownerClass, AnnotatedMethod annotatedMethod, Class<?> eventClass) {
@@ -279,9 +305,11 @@ public class ViewControllerReflectionInspector {
 
         Map<Class, MethodHandle> addListenerMethods = getAddListenerMethodsNotCached(concreteClass, methods);
         Map<String, MethodHandle> installTargetMethods = getInstallTargetMethodsNotCached(concreteClass, methods);
-        Map<String, MethodHandle> supplyTargetMethods = getSupplyTargetMethodsNotCached(concreteClass, methods);
+        Map<MethodSignature, MethodHandle> supplyTargetMethods =
+                getSupplyTargetMethodsNotCached(concreteClass, methods);
 
-        return new TargetIntrospectionData(addListenerMethods, installTargetMethods, supplyTargetMethods);
+        return new TargetIntrospectionData(addListenerMethods, argumentTypesToClashedMethodsMap,
+                installTargetMethods, supplyTargetMethods);
     }
 
     protected List<InjectElement> getAnnotatedInjectElementsNotCached(Class<?> clazz) {
@@ -583,6 +611,24 @@ public class ViewControllerReflectionInspector {
                         } catch (IllegalAccessException e) {
                             throw new RuntimeException("Unable to use subscription method " + m, e);
                         }
+
+                        // For cases where several listeners have the same signature
+                        // E.g. com.vaadin.flow.component.ClickNotifier
+                        if (argumentTypeToDefaultMethodMap.containsKey(actualTypeArgument)) {
+                            if (argumentTypesToClashedMethodsMap.containsKey(actualTypeArgument)) {
+                                argumentTypesToClashedMethodsMap.get(actualTypeArgument).add(mh);
+                            } else {
+                                ArrayList<MethodHandle> clashedMethods = new ArrayList<>();
+                                clashedMethods.add(mh);
+                                argumentTypesToClashedMethodsMap.put(actualTypeArgument, clashedMethods);
+                            }
+
+                            // Do not save non-default methods in cache for backward compatibility
+                            if (!m.getName().equals(argumentTypeToDefaultMethodMap.get(actualTypeArgument))) {
+                                continue;
+                            }
+                        }
+
                         subscriptionMethods.put(actualTypeArgument, mh);
                     }
                 }
@@ -627,9 +673,9 @@ public class ViewControllerReflectionInspector {
         return ImmutableMap.copyOf(handlesMap);
     }
 
-    protected Map<String, MethodHandle> getSupplyTargetMethodsNotCached(Class<?> clazz,
+    protected Map<MethodSignature, MethodHandle> getSupplyTargetMethodsNotCached(Class<?> clazz,
                                                                         Method[] uniqueDeclaredMethods) {
-        Map<String, MethodHandle> handlesMap = new HashMap<>();
+        Map<MethodSignature, MethodHandle> handlesMap = new HashMap<>();
         MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         for (Method m : uniqueDeclaredMethods) {
@@ -646,12 +692,24 @@ public class ViewControllerReflectionInspector {
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("unable to get method handle " + m);
                 }
-
-                handlesMap.put(m.getName(), methodHandle);
+                MethodSignature methodSignature =
+                        new MethodSignature(m.getName(), Arrays.asList(m.getParameterTypes()));
+                handlesMap.put(methodSignature, methodHandle);
             }
         }
 
         return ImmutableMap.copyOf(handlesMap);
+    }
+
+    protected boolean isMethodHandleHasName(MethodHandle methodHandle, String methodName) {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        String capitalizedMethodName = StringUtils.capitalize(methodName);
+
+        return lookup.revealDirect(methodHandle)
+                .getName()
+                // skip 'add' and 'set'
+                .substring(3)
+                .equals(capitalizedMethodName);
     }
 
     public static class InjectElement {
@@ -758,13 +816,16 @@ public class ViewControllerReflectionInspector {
     public static class TargetIntrospectionData {
 
         private final Map<Class, MethodHandle> addListenerMethods;
+        private final Map<Class, Collection<MethodHandle>> clashedAddListenerMethods;
         private final Map<String, MethodHandle> installTargetMethods;
-        private final Map<String, MethodHandle> supplyTargetMethods;
+        private final Map<MethodSignature, MethodHandle> supplyTargetMethods;
 
         public TargetIntrospectionData(Map<Class, MethodHandle> addListenerMethods,
+                                       Map<Class, Collection<MethodHandle>> clashedAddListenerMethods,
                                        Map<String, MethodHandle> installTargetMethods,
-                                       Map<String, MethodHandle> supplyTargetMethods) {
+                                       Map<MethodSignature, MethodHandle> supplyTargetMethods) {
             this.addListenerMethods = addListenerMethods;
+            this.clashedAddListenerMethods = clashedAddListenerMethods;
             this.installTargetMethods = installTargetMethods;
             this.supplyTargetMethods = supplyTargetMethods;
         }
@@ -773,12 +834,53 @@ public class ViewControllerReflectionInspector {
             return addListenerMethods;
         }
 
+        public Map<Class, Collection<MethodHandle>> getClashedAddListenerMethods() {
+            return clashedAddListenerMethods;
+        }
+
         public Map<String, MethodHandle> getInstallTargetMethods() {
             return installTargetMethods;
         }
 
-        public Map<String, MethodHandle> getSupplyTargetMethods() {
+        public Map<MethodSignature, MethodHandle> getSupplyTargetMethods() {
             return supplyTargetMethods;
+        }
+    }
+
+    public static class MethodSignature {
+
+        protected String name;
+        protected List<Class<?>> parameters;
+
+        public MethodSignature(String name, List<Class<?>> parameters) {
+            this.name = name;
+            this.parameters = parameters;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<Class<?>> getParameters() {
+            return parameters;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MethodSignature that = (MethodSignature) o;
+            return Objects.equals(name, that.name) && Objects.equals(parameters, that.parameters);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, parameters);
+        }
+
+        @Override
+        public String toString() {
+            return "MethodSignature{" + name + "(" + parameters + ")" + "}";
         }
     }
 }
