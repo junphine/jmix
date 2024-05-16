@@ -53,6 +53,7 @@ dependencies {
     testImplementation project(':data')
     testImplementation project(':eclipselink-starter')
     testImplementation project(':security-starter')
+    testImplementation project(':security')
     testImplementation project(':security-data-starter')
 //    testImplementation project(':security-oauth2-starter')
 

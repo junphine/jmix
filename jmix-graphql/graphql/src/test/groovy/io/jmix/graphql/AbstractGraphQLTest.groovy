@@ -24,11 +24,12 @@ import com.google.gson.JsonParser
 import com.graphql.spring.boot.test.GraphQLResponse
 import com.graphql.spring.boot.test.GraphQLTestTemplate
 import io.jmix.core.security.InMemoryUserRepository
-import io.jmix.security.authentication.RoleGrantedAuthority
+
 import io.jmix.security.role.ResourceRoleRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
+
 import org.springframework.http.HttpHeaders
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -41,7 +42,7 @@ import test_support.RestTestUtils
 import test_support.entity.Car
 
 
-@SpringBootTest(classes = App, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = App)
 class AbstractGraphQLTest extends Specification {
 
     @LocalServerPort
