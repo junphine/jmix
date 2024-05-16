@@ -17,6 +17,7 @@
 import 'ace-builds/src-noconflict/ace.js';
 import 'ace-builds/esm-resolver.js';
 import {ElementMixin} from '@vaadin/component-base/src/element-mixin.js';
+import {defineCustomElement} from '@vaadin/component-base/src/define.js';
 import {ResizeMixin} from '@vaadin/component-base/src/resize-mixin.js';
 import {InputFieldMixin} from '@vaadin/field-base/src/input-field-mixin.js';
 import {TooltipController} from '@vaadin/component-base/src/tooltip-controller.js';
@@ -157,12 +158,21 @@ class JmixCodeEditor extends ResizeMixin(InputFieldMixin(ThemableMixin(ElementMi
 
         this._tooltipController = new TooltipController(this);
         this._tooltipController.setPosition('top');
+        this._tooltipController.setAriaTarget(this._editor);
         this.addController(this._tooltipController);
 
         this._editor.on('blur', () => {
             const customEvent = new CustomEvent('value-changed', {detail: {value: this._editor.getValue()}});
             this.dispatchEvent(customEvent);
+
+            this._setFocused(false);
         });
+
+        this.addEventListener('focus', (e) => {
+            this._setFocused(true);
+        });
+
+        this._setFocusElement(this._editor.textInput.getElement());
     }
 
     initApplicationThemeObserver() {
@@ -346,6 +356,6 @@ class JmixCodeEditor extends ResizeMixin(InputFieldMixin(ThemableMixin(ElementMi
     }
 }
 
-customElements.define(JmixCodeEditor.is, JmixCodeEditor);
+defineCustomElement(JmixCodeEditor);
 
 export {JmixCodeEditor};

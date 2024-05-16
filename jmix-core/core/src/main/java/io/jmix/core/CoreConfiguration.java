@@ -17,7 +17,6 @@
 package io.jmix.core;
 
 import io.jmix.core.annotation.JmixModule;
-import io.jmix.core.impl.CircularBeanReferencesEnabler;
 import io.jmix.core.impl.logging.LogMdcFilter;
 import io.jmix.core.impl.validation.JmixLocalValidatorFactoryBean;
 import io.jmix.core.impl.validation.ValidationClockProvider;
@@ -54,8 +53,8 @@ public class CoreConfiguration {
     }
 
     @Bean("core_BeanExclusionProcessor")
-    public static BeanExclusionProcessor beanExclusionProcessor() {
-        return new BeanExclusionProcessor();
+    public static BeanExclusionProcessor beanExclusionProcessor(JmixModules modules) {
+        return new BeanExclusionProcessor(modules);
     }
 
     @Bean("core_Modules")
@@ -79,11 +78,6 @@ public class CoreConfiguration {
         validatorFactory.setJmixMessageInterpolator(messageInterpolator);
 
         return validatorFactory;
-    }
-
-    @Bean("core_CircularBeanReferencesEnabler")
-    public static CircularBeanReferencesEnabler circularBeanReferencesEnabler() {
-        return new CircularBeanReferencesEnabler();
     }
 
     @Bean("core_LogMdcFilterRegistrationBean")

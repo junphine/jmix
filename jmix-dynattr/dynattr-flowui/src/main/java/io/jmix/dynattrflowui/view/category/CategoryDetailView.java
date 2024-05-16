@@ -37,7 +37,6 @@ import io.jmix.dynattr.AttributeType;
 import io.jmix.dynattr.MsgBundleTools;
 import io.jmix.dynattr.model.Category;
 import io.jmix.dynattr.model.CategoryAttribute;
-import io.jmix.dynattrflowui.utils.DataProviderUtils;
 import io.jmix.dynattrflowui.utils.DynAttrUiHelper;
 import io.jmix.dynattrflowui.view.categoryattr.CategoryAttributesDetailView;
 import io.jmix.dynattrflowui.view.localization.AttributeLocalizationComponent;
@@ -206,9 +205,9 @@ public class CategoryDetailView extends StandardDetailView<Category> {
         }
         entityTypeField.setItemLabelGenerator(options::get);
         //noinspection unchecked
-        entityTypeField.setItems(DataProviderUtils.createCallbackDataProvider(options.keySet().stream()
+        entityTypeField.setItems(options.keySet().stream()
                 .sorted(Comparator.comparing(MetadataObject::getName))
-                .toList()));
+                .toList());
 
         if (getEditedEntity().getEntityType() != null) {
             entityTypeField.setValue(extendedEntities.getEffectiveMetaClass(getEditedEntity().getEntityType()));
@@ -416,27 +415,19 @@ public class CategoryDetailView extends StandardDetailView<Category> {
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Subscribe("categoryAttrsGrid.moveUp")
     protected void onCategoryAttrsGridMoveUp(ActionPerformedEvent event) {
         dynAttrUiHelper.moveTableItemUp(categoryAttributesDc, categoryAttrsGrid, () ->
-                categoryAttributesDc.getMutableItems().forEach(item -> {
-                    item.setOrderNo(categoryAttributesDc.getMutableItems().indexOf(item));
-                    getViewData().getDataContext().setModified(item, true);
-                    getViewData().getDataContext().merge(item);
-                }));
+                categoryAttributesDc.getMutableItems()
+                        .forEach(item -> item.setOrderNo(categoryAttributesDc.getMutableItems().indexOf(item))));
 
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Subscribe("categoryAttrsGrid.moveDown")
     protected void onCategoryAttrsGridMoveDown(ActionPerformedEvent event) {
         dynAttrUiHelper.moveTableItemDown(categoryAttributesDc, categoryAttrsGrid, () ->
-                categoryAttributesDc.getMutableItems().forEach(item -> {
-                    item.setOrderNo(categoryAttributesDc.getMutableItems().indexOf(item));
-                    getViewData().getDataContext().setModified(item, true);
-                    getViewData().getDataContext().merge(item);
-                }));
+                categoryAttributesDc.getMutableItems()
+                        .forEach(item -> item.setOrderNo(categoryAttributesDc.getMutableItems().indexOf(item))));
     }
 
     protected CategoryAttribute getPrevAttribute(Integer orderNo) {

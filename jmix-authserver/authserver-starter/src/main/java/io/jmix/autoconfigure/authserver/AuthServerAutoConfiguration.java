@@ -18,6 +18,7 @@ package io.jmix.autoconfigure.authserver;
 
 import io.jmix.authserver.AuthServerConfiguration;
 import io.jmix.authserver.AuthServerProperties;
+import io.jmix.authserver.authentication.OAuth2ResourceOwnerPasswordTokenEndpointConfigurer;
 import io.jmix.authserver.filter.AsResourceServerEventSecurityFilter;
 import io.jmix.authserver.introspection.AuthorizationServiceOpaqueTokenIntrospector;
 import io.jmix.authserver.introspection.TokenIntrospectorRolesHelper;
@@ -35,6 +36,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
@@ -49,6 +51,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collection;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @AutoConfiguration
 @Import({AuthServerConfiguration.class})
@@ -86,6 +90,18 @@ public class AuthServerAutoConfiguration {
             this.authServerProperties = authServerProperties;
         }
 
+        /**
+         * Enables CORS for pre-flight requests to OAuth2 endpoints
+         */
+        @Bean("authsr_AuthorizationServerCorsSecurityFilterChain")
+        @Order(JmixSecurityFilterChainOrder.AUTHSERVER_AUTHORIZATION_SERVER + 5)
+        public SecurityFilterChain authorizationServerCorsSecurityFilterChain(HttpSecurity http)
+                throws Exception {
+            http.securityMatcher(antMatcher(HttpMethod.OPTIONS, "/oauth2/**"));
+            http.cors(Customizer.withDefaults());
+            return http.build();
+        }
+
         @Bean("authsr_AuthorizationServerSecurityFilterChain")
         @Order(JmixSecurityFilterChainOrder.AUTHSERVER_AUTHORIZATION_SERVER)
         public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -99,6 +115,7 @@ public class AuthServerAutoConfiguration {
                                     new LoginUrlAuthenticationEntryPoint(authServerProperties.getLoginPageUrl()))
                     )
                     .cors(Customizer.withDefaults());
+            http.with(new OAuth2ResourceOwnerPasswordTokenEndpointConfigurer(), Customizer.withDefaults());
             SecurityConfigurers.applySecurityConfigurersWithQualifier(http, SECURITY_CONFIGURER_QUALIFIER);
             return http.build();
         }
