@@ -18,11 +18,12 @@ package io.jmix.graphql.datafetcher;
 
 import io.jmix.graphql.modifier.GraphQLRemoveEntityDataFetcher;
 import io.jmix.graphql.modifier.GraphQLUpsertEntityDataFetcher;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.HashMap;

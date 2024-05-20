@@ -77,8 +77,8 @@ includeProject("flowui-devserver", 'jmix-flowui/flowui-devserver')
 includeProject('flowui-test-assist', 'jmix-flowui/flowui-test-assist')
 
 //todo SB3 restore graphql modules
-includeProject('graphql', 'jmix-graphql/graphql')
-includeProject('graphql-starter', 'jmix-graphql/graphql-starter')
+//includeProject('graphql', 'jmix-graphql/graphql')
+//includeProject('graphql-starter', 'jmix-graphql/graphql-starter')
 
 includeProject('gridexport-flowui', 'jmix-gridexport/gridexport-flowui')
 includeProject('gridexport-flowui-starter', 'jmix-gridexport/gridexport-flowui-starter')

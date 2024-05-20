@@ -28,7 +28,7 @@ import io.jmix.flowui.model.DataLoader;
 import io.jmix.search.SearchProperties;
 import io.jmix.search.searching.*;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.common.Strings;
+
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -100,7 +100,7 @@ public class FullTextFilter extends SingleFilterComponentBase<String> {
 
     @Override
     protected void updateQueryCondition(@Nullable String newValue) {
-        if (Strings.isNullOrEmpty(newValue)) {
+        if (StringUtils.isEmpty(newValue)) {
             setQueryConditionParameterValue(Collections.emptyList());
         }
     }

@@ -1,5 +1,6 @@
 ignite:
   igniteInstanceName: ignite
+  clientMode: false
   communicationSpi:
     localPort: 5555
   dataStorageConfiguration:

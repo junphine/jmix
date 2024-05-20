@@ -31,7 +31,7 @@ import io.jmix.search.searching.SearchStrategy;
 import io.jmix.search.searching.SearchStrategyManager;
 import io.jmix.searchflowui.component.FullTextFilter;
 import io.jmix.searchflowui.entity.FullTextFilterCondition;
-import org.elasticsearch.common.Strings;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -96,7 +96,7 @@ public class FullTextFilterConverter extends AbstractFilterComponentConverter<Fu
         fullTextFilter.setParameterName(model.getParameterName());
 
         String searchStrategyName = model.getSearchStrategyName();
-        SearchStrategy searchStrategy = !Strings.isNullOrEmpty(searchStrategyName) ?
+        SearchStrategy searchStrategy = searchStrategyName!=null?
                 searchStrategyManager.findSearchStrategyByName(searchStrategyName) :
                 null;
         fullTextFilter.setSearchStrategy(searchStrategy);

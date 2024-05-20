@@ -17,9 +17,10 @@
 package io.jmix.graphql;
 
 import io.jmix.core.metamodel.model.MetaClass;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
+import jakarta.annotation.Nonnull;
 
-import javax.validation.constraints.NotNull;
 
 public class NamingUtils {
 

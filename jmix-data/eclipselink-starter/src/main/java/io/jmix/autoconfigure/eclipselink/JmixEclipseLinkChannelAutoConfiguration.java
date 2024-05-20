@@ -17,15 +17,13 @@
 package io.jmix.autoconfigure.eclipselink;
 
 import io.jmix.eclipselink.impl.support.EclipseLinkChannelSupplier;
+
 import org.apache.ignite.Ignite;
-import org.apache.ignite.events.EventType;
-import org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi;
-import org.apache.ignite.springframework.boot.autoconfigure.IgniteConfigurer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
-import org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfiguration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -34,33 +32,20 @@ import org.springframework.core.annotation.Order;
 
 @AutoConfiguration
 @ConditionalOnMissingBean(EclipseLinkChannelSupplier.class)
-@AutoConfigureAfter(HazelcastAutoConfiguration.class)
-@Import({JmixEclipseLinkChannelAutoConfiguration.HazelcastChannelConfiguration.class,
+//@AutoConfigureAfter(IgniteAutoConfiguration.class)
+@Import({JmixEclipseLinkChannelAutoConfiguration.IgniteChannelConfiguration.class,
         JmixEclipseLinkChannelAutoConfiguration.NoOpChannelConfiguration.class})
 public class JmixEclipseLinkChannelAutoConfiguration {
 
-    /**
-     * Providing configurer for the Ignite.
-     * @return Ignite Configurer.
-     */
-    @Bean
-    public IgniteConfigurer configurer() {
-        return cfg -> {
-            //Setting consistent id.
-            //See `application.yml` for the additional properties.
-            cfg.setClientMode(true);
-            cfg.setCommunicationSpi(new TcpCommunicationSpi());
-            cfg.setIncludeEventTypes(EventType.EVT_CACHE_OBJECT_PUT,EventType.EVT_CACHE_OBJECT_READ,EventType.EVT_CACHE_OBJECT_REMOVED);
-        };
-    }
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(Ignite.class)
     @ConditionalOnSingleCandidate(Ignite.class)
     @Order(10)
-    public static class HazelcastChannelConfiguration {
+    public static class IgniteChannelConfiguration {
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnClass(Ignite.class)
         public EclipseLinkChannelSupplier eclipseLinkChannelSupplier(Ignite hazelcastInstance) {
             return new EclipseLinkIgniteChanelSupplier(hazelcastInstance);
         }
